@@ -1,0 +1,16 @@
+1.
+Age:
+FLOOR((TODAY()- Birthdate__c)/365.25)
+
+
+2.
+Roll-Up-Summary
+COUNT именно 'Upcoming'
+
+3.
+validation rule (Flight):
+ Tourist__r.Age__c  <  Trip__r.Minimum_Age__c 
+
+4.
+validation rule (Flight):
+ISPICKVAL( Status__c ,"Past") || Trip__r.Start_Date__c  <  TODAY()
