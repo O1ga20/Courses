@@ -5,7 +5,7 @@ FLOOR((TODAY()- Birthdate__c)/365.25)
 
 2.
 Roll-Up-Summary
-COUNT именно 'Upcoming'
+COUNT ГЁГ¬ГҐГ­Г­Г® 'Upcoming'
 
 3.
 validation rule (Flight):
@@ -13,4 +13,4 @@ validation rule (Flight):
 
 4.
 validation rule (Flight):
-ISPICKVAL( Status__c ,"Past") || Trip__r.Start_Date__c  <  TODAY()
+!ISPICKVAL( Status__c ,"Upcoming") || Trip__r.Start_Date__c < TODAY()
