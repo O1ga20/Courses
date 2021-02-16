@@ -22,3 +22,6 @@ SELECT Name,Start_Date__c,
 	(SELECT Tourist__r.Name, Tourist__r.Age__c FROM Flights__r) 
 	FROM Trip__c
 5.
+SELECT Name, Age__c,
+	(SELECT Trip__r.Start_Date__c, Trip__r.Name FROM Flights__r) 
+	FROM Tourist__c
