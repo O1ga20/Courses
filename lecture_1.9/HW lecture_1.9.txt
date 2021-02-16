@@ -1,0 +1,20 @@
+1.
+SELECT Start_Date__c, Name 
+	FROM Trip__c 
+	WHERE Start_Date__c >= 2020-01-01  
+		AND 
+		Start_Date__c <= 2020-12-31
+
+2.
+SELECT Name,Age__c FROM 
+	Tourist__c 	
+	WHERE Name LIKE '%John%'
+
+3.
+SELECT Name, Age__c 
+	FROM Tourist__c 
+	WHERE Age__c = 20 
+		or Age__c = 22 
+		or Age__c = 24
+
+4.
