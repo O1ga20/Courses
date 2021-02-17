@@ -1,0 +1,10 @@
+Deciding Which to Use
+A SOQL query is the equivalent of a SELECT SQL statement and searches the org database. SOSL is a programmatic way of performing a text-based search against the search index.
+
+Whether you use SOQL or SOSL depends on whether you know which objects or fields you want to search, plus other considerations.
+
+Use SOQL when you know which objects the data resides in, and you want to:
+Retrieve data from a single object or from multiple objects that are related to one another.
+Count the number of records that meet specified criteria.
+Sort results as part of the query.
+Retrieve data from number, date, or checkbox fields.
