@@ -38,3 +38,11 @@ SELECT Name, Age__c
 		Trip__r.Start_Date__c <= 2020-12-31)
 
 8.
+SELECT Start_Date__c, Name
+	FROM Trip__c
+	WHERE  CALENDAR_YEAR(Start_Date__c) = 2020	
+		AND
+		Id IN (SELECT Trip__c FROM Flight__c 
+			WHERE (Tourist__r.Age__c >= 20 AND Tourist__r.Age__c <= 30)
+			AND
+			Tourist__r.Name LIKE 'B%')
