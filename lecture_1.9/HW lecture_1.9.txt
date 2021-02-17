@@ -25,3 +25,7 @@ SELECT Name,Start_Date__c,
 SELECT Name, Age__c,
 	(SELECT Trip__r.Start_Date__c, Trip__r.Name FROM Flights__r) 
 	FROM Tourist__c
+6.
+SELECT Name, Age__c
+FROM Tourist__c
+WHERE Id NOT IN (SELECT Tourist__c FROM Flight__c)
