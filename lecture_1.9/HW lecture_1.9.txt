@@ -27,5 +27,14 @@ SELECT Name, Age__c,
 	FROM Tourist__c
 6.
 SELECT Name, Age__c
-FROM Tourist__c
-WHERE Id NOT IN (SELECT Tourist__c FROM Flight__c)
+	FROM Tourist__c
+	WHERE Id NOT IN (SELECT Tourist__c FROM Flight__c)
+7.
+SELECT Name, Age__c
+	FROM Tourist__c
+	WHERE Id IN (SELECT Tourist__c FROM Flight__c
+		WHERE  Trip__r.Start_Date__c >= 2020-01-01  
+		AND 
+		Trip__r.Start_Date__c <= 2020-12-31)
+
+8.
