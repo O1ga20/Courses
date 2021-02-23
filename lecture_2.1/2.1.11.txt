@@ -1,0 +1,10 @@
+Integer [] arrays = new Integer []{4,2,3,0};
+Integer j = arrays.size();
+Integer [] beven = new Integer []{};
+for (Integer i=0; i<j; i++){
+        if(math.mod (arrays[i], 2) == 0){
+            beven.add(arrays[i]); 
+         }        
+     }
+beven.sort();
+System.debug(beven);				// returns 0,2,4

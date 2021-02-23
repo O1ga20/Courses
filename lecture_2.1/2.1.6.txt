@@ -1,0 +1,7 @@
+Boolean b1 = false;
+System.debug(b1);                               	//return false
+	Boolean b2 = true;
+	System.debug(b2); 				//return true
+		System.debug(b1 == b2); 		//not performed, return false 
+			System.debug(b1 != b2);		//not performed, return true 
+

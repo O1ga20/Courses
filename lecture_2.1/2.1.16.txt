@@ -1,0 +1,15 @@
+Long numToCheck = 910019;
+Long rem, sum = 0, temp;  
+ temp =numToCheck;
+    while (numToCheck > 0) {  
+            rem = math.mod(numToCheck,10); 			//for getting remainder by dividing with 10    
+            numToCheck = math.round(numToCheck / 10); 		//for getting quotient by dividing with 10    
+            sum = sum * 10 + rem;  	
+            							/*multiplying the sum with 10 and adding  
+           							 remainder*/  
+    } 
+		if (temp == sum){  				//checking whether the reversed number is equal to entered number    
+     			System.debug('Number is Palindrome');
+       		} else {  
+          	System.debug('Number is not a Palindrome');
+       		}  

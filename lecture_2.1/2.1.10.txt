@@ -1,0 +1,9 @@
+List<String> words = new List<String> {'zero', 'one', 'two', 'three', 'four', 'senla'};
+List<String> odd = new List<String> ();
+Integer j = words.size();
+for (Integer i=0; i<j; i++){
+        if(math.mod (i, 2) != 0){
+            odd.add(words[i]); 
+         }        
+     }
+System.debug(odd);

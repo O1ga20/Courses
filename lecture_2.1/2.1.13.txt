@@ -1,0 +1,15 @@
+List<String> words = new List<String> {'zero', 'one', 'two','end', 'senla'};
+Map<Integer,List<String>> m = new Map<Integer, List<String>>();
+
+Integer j = words.size();
+for (Integer i=0; i<j; i++){
+    Integer a = words.get(i).length();  	 //word length from List
+    						//check if the key contains
+    if (m.containsKey (a)){			
+       
+        m.get(a).add(words[i]);         	//if yes, then I add
+    }else{
+        m.put(a,new List<String>{words[i]}); 	//if not, then just write down in new List
+    }    
+}
+System.debug(m);				//|DEBUG|{3=(one, two, end), 4=(zero), 5=(senla)}

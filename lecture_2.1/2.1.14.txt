@@ -1,0 +1,13 @@
+Integer N=10;
+
+for(Integer i = 1; i<=N; i++){					
+		Integer num = 0;
+			for(Integer j = 1; j <=N; j++){		//iterating over divisors
+				if(math.mod(i, j)==0){		//I check if they are divided without a remainder
+					num+=1;			
+					}
+            			}
+    			if(num == 2){				//if divisible by only two numbers I output to debug
+                    		System.debug(i);
+                	}
+}								//returns 2,3,5,7

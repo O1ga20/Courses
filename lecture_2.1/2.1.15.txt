@@ -1,0 +1,15 @@
+Integer N=25;
+Integer n0=1;
+Integer n1=1;
+Integer n2;
+System.debug(n0);
+System.debug(n1);
+
+for(Integer i = 1; i <=N; i++){
+    n2=n0+n1;
+    if (n2<=N){				//check if the number is out of range
+    System.debug(n2);
+    n0=n1;
+    n1=n2;
+    }
+}					// returns 1,1,2,3,5,8,13,21

@@ -1,0 +1,14 @@
+List<String> words = new List<String> {'zero', 'one', 'two','end', 'senla'};
+Map<Integer, Integer> m = new Map<Integer, Integer>();
+
+Integer j = words.size();
+for (Integer i=0; i<j; i++){
+    Integer a = words.get(i).length();	//word length 
+					//check if the key contains
+    if (m.containsKey (a)){
+       m.put(a,m.get(a)+1);		//if yes, add to the word count
+    }else{
+       m.put(a, 1); 			//if not, then just write
+    }    
+}
+System.debug(m);			// return {3=3, 4=1, 5=1}

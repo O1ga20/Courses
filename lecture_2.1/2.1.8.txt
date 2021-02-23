@@ -1,0 +1,16 @@
+Integer [] arrays = new Integer []{1,2,3,4,5};
+Integer j = arrays.size();
+Integer [] beven = new Integer []{};
+Integer [] odd = new Integer []{};
+
+for (Integer i=0; i<j; i++){
+
+        if(math.mod (arrays[i], 2) == 0){
+             beven.add(arrays[i]); 
+
+         } else{
+             odd.add(arrays[i]);
+         }       
+     }
+System.debug(beven);
+System.debug(odd);
