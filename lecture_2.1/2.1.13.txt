@@ -1,4 +1,5 @@
-List<String> words = new List<String> {'zero', 'one', 'two','end', 'senla'};
+String str ='Returns a list that contains each substring';
+List<String> words =str.split(' ');
 Map<Integer,List<String>> m = new Map<Integer, List<String>>();
 
 Integer j = words.size();
@@ -12,4 +13,4 @@ for (Integer i=0; i<j; i++){
         m.put(a,new List<String>{words[i]}); 	//if not, then just write down in new List
     }    
 }
-System.debug(m);				//|DEBUG|{3=(one, two, end), 4=(zero), 5=(senla)}
+System.debug(m);	//|DEBUG|{1=(a), 4=(list, that, each), 7=(Returns), 8=(contains), 9=(substring)}

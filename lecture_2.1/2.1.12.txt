@@ -1,4 +1,5 @@
-List<String> words = new List<String> {'zero', 'one', 'two','end', 'senla'};
+String str ='Returns a list that contains each substring';
+List<String> words =str.split(' ');
 Map<Integer, Integer> m = new Map<Integer, Integer>();
 
 Integer j = words.size();
@@ -11,4 +12,4 @@ for (Integer i=0; i<j; i++){
        m.put(a, 1); 			//if not, then just write
     }    
 }
-System.debug(m);			// return {3=3, 4=1, 5=1}
+System.debug(m);			// retur {1=1, 4=3, 7=1, 8=1, 9=1}

@@ -1,4 +1,5 @@
-List<String> words = new List<String> {'zero', 'one', 'two', 'three', 'four', 'senla'};
+String str ='Returns a list that contains each substring';
+List<String> words =str.split(' ');
 List<String> odd = new List<String> ();
 Integer j = words.size();
 for (Integer i=0; i<j; i++){
