@@ -1,5 +1,10 @@
-String str ='Returns a list that contains each substring';
-List<String> words =str.split(' ');
+List < String > words = new List < String > {
+	'one',
+	'two',
+	'three',
+	'four',
+	'senla'
+};
 Integer a = words.size();
 System.debug(words.get(0));
 System.debug(words.get(--a));
