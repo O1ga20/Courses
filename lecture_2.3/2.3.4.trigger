@@ -1,6 +1,6 @@
-trigger TouristTrigger on Tourist__c(before insert, after update) {
+trigger TouristTrigger on Tourist__c(after insert, after update) {
 	switch on Trigger.operationType {
-		when BEFORE_INSERT {
+		when AFTER_INSERT {
 			TouristService.markDuplicates(Trigger.New);
 		}
 		when AFTER_UPDATE {
