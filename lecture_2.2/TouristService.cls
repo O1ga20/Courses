@@ -1,12 +1,12 @@
 public class TouristService {
-    public static void markDuplicates(List < Tourist__c > newTourists) {
+    public static void markDuplicates(List<Tourist__c> newTourists) {
         newTourists = [
             SELECT LastName__c,
             Email__c,
             IsDuplicate__c
             FROM Tourist__c
         ];
-        List < Tourist__c > touristsDuplicate = new List < Tourist__c > ();
+        List<Tourist__c> touristsDuplicate = new List<Tourist__c> ();
 
         for (Tourist__c tourist1: newTourists) {
             Integer count = 0;

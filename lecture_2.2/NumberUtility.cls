@@ -1,8 +1,8 @@
 public class NumberUtility {
 
     //¹14 prime numbers ranging from 1 to N
-    public static List < Integer > primeNumbers(Integer number1) {
-        List < Integer > primeList = new List < Integer > ();
+    public static List<Integer> primeNumbers(Integer number1) {
+        List<Integer> primeList = new List<Integer> ();
         for (Integer i = 1; i <= number1; i++) {
             Integer num = 0;
             for (Integer j = 1; j <= number1; j++) { //iterating over divisors
@@ -18,8 +18,8 @@ public class NumberUtility {
     }
 
     //¹15 Fibonacci numbers ranging from 1 to N
-    public static List < Integer > fibonacciNumbers(Integer number2) {
-        List < Integer > fibonacciList = new List < Integer > ();
+    public static List<Integer> fibonacciNumbers(Integer number2) {
+        List<Integer> fibonacciList = new List<Integer> ();
         Integer n0 = 1;
         Integer n1 = 1;
         Integer n2;
