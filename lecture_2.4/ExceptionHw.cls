@@ -2,13 +2,14 @@ public class ExceptionHw {
     public class CusomException extends Exception {}
 
     public static void methodFirst() {
+        
         try {
             Tourist__c touristFirst = new Tourist__c();
             Insert touristFirst;
             Flight__c flighttouristFirst = new Flight__c(Status__c = 'Accepted', Tourist__c = touristFirst.Id, Trip__c = 'a085g0000011IV3AAM');
             Insert flighttouristFirst;
-        } catch (CusomException e) {
-            throw new CusomException(e.getCause());
+        } catch (DmlException e) {
+            throw new CusomException('An exception ' + e.getCause());
         }
     }
 
