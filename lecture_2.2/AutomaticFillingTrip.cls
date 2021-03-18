@@ -3,15 +3,9 @@ public class AutomaticFillingTrip {
     @InvocableMethod(label = 'Automatic tourist registration'
         description = 'Registration of free tourists'
         category = 'Trip__c')
-    public static void fillingTrip(List<Trip__c> trip) {
+    public static void fillingTrip(List < Trip__c > trip) {
 
-        List<Tourist__c> freeTourists = [
-            SELECT Id,
-            Name,
-            Age__c
-            FROM Tourist__c
-            WHERE Id NOT IN(SELECT Tourist__c FROM Flight__c)
-        ];
+        List < Tourist__c > freeTourists = TouristManager.touristNotRegistered();
         trip = [
             SELECT Id,
             Name,
@@ -19,8 +13,8 @@ public class AutomaticFillingTrip {
             (SELECT Id, Tourist__r.Name, Tourist__r.Age__c FROM Flights__r)
             FROM Trip__c
         ];
-        List<Tourist__c> filteredTourists = new List<Tourist__c> ();
-        List<Flight__c> registerAtourist = new List<Flight__c> ();
+        List < Tourist__c > filteredTourists = new List < Tourist__c > ();
+        List < Flight__c > registerAtourist = new List < Flight__c > ();
 
         for (Tourist__c tourist1: freeTourists) {
             for (Trip__c trips1: trip) {
