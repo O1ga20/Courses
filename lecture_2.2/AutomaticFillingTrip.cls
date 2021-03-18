@@ -3,7 +3,7 @@ public class AutomaticFillingTrip {
     @InvocableMethod(label = 'Automatic tourist registration'
         description = 'Registration of free tourists'
         category = 'Trip__c')
-    public static void fillingTrip(List<Trip__c > trip) {
+    public static void fillingTrip(List<Trip__c> trip) {
 
         List<Tourist__c> freeTourists = TouristManager.touristNotRegistered();
         trip = [
@@ -23,7 +23,7 @@ public class AutomaticFillingTrip {
                     Flight__c newRegister = new Flight__c();
                     newRegister.Tourist__c = tourist1.Id;
                     newRegister.Trip__c = trips1.Id;
-                    newRegister.Status__c = 'Upcoming';
+                    newRegister.Status__c = 'Accepted';
                     registerAtourist.add(newRegister);
                 }
             }
