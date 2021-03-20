@@ -1,52 +1,48 @@
 public class TouristManager {
-    //tourists (name, age) whose name contains John
-    public static List<Tourist__c> touristJohn(String filter1) {
-        List<Tourist__c> john = [
+    
+    public static List<Tourist__c> getByName(String nameToSearch) {
+        List<Tourist__c> selectedNames = [
             SELECT Name,
             Age__c
             FROM Tourist__c
-            WHERE Name Like: filter1
+            WHERE Name Like: nameToSearch
         ];
-        return john;
+        return selectedNames;
     }
     
-    //tourists (name, age) with the age of 20, 22, 24 years
-    public static Set<Tourist__c> touristAge202224(Integer Age1, Integer Age2, Integer Age3) {
-        Set<Tourist__c> age202224 = new Set<Tourist__c> ([
+    public static Set<Tourist__c> getSuitableAge(Integer AgeFirst, Integer AgeSecond, Integer AgeThird) {
+        Set<Tourist__c> ages = new Set<Tourist__c> ([
             SELECT Name,
             Age__c
             FROM Tourist__c
-            WHERE Age__c =: Age1
-            or Age__c =: Age2
-            or Age__c =: Age3
+            WHERE Age__c =: AgeFirst
+            or Age__c =: AgeSecond
+            or Age__c =: AgeThird
         ]);
-        return age202224;
+        return ages;
     }
     
-    //tourists (name, age) who started their flight in 2020
-    public static List<Tourist__c> touristStart2020(Integer year) {
-        List<Tourist__c> start2020 = [
+    public static List<Tourist__c> getByStartDateYear(Integer year) {
+        List<Tourist__c> startDateYear = [
             SELECT Name, 
             Age__c
             FROM Tourist__c
             WHERE Id IN(SELECT Tourist__c FROM Flight__c WHERE CALENDAR_YEAR(Trip__r.Start_Date__c) =: year)
         ];
-        return start2020;
+        return startDateYear;
     }
     
-    //tourists (name, age) with a list of flights (start date, name)
-    public static List<Tourist__c> touristListTrip() {
-        List<Tourist__c> listTrip = [
+    public static List<Tourist__c> getRegisteredOnTheTrip() {
+        List<Tourist__c> registered = [
             SELECT Name,
             Age__c, 
             (SELECT Trip__r.Start_Date__c, Trip__r.Name FROM Flights__r)
             FROM Tourist__c
         ];
-        return listTrip;
+        return registered;
     }
     
-    //tourists (name, age) who have not checked in for any flight
-    public static List<Tourist__c> touristNotRegistered() {
+    public static List<Tourist__c> getNotRegisteredOnTheTrip() {
         List<Tourist__c> notRegistered = [
             SELECT Name, 
             Age__c
