@@ -1,25 +1,29 @@
 public class TouristService {
+    
     public static void markDuplicates(List<Tourist__c> newTourists) {
-        newTourists = [
-            SELECT LastName__c,
-            Email__c,
-            IsDuplicate__c
-            FROM Tourist__c
-        ];
-        List<Tourist__c> touristsDuplicate = new List<Tourist__c> ();
-
-        for (Tourist__c tourist1: newTourists) {
-            Integer count = 0;
-            for (Tourist__c tourist2: newTourists) {
-                if (tourist1.Email__c == tourist2.Email__c && tourist1.LastName__c == tourist2.LastName__c) {
-                    count++;
-                    if (count > 1 && tourist1.Id == tourist2.Id) {
-                        tourist2.IsDuplicate__c = true;
-                        touristsDuplicate.add(tourist2);
+        if (!newTourists.isEmpty() && newTourists!=null ) {
+            newTourists = [
+                SELECT LastName__c,
+                Email__c,
+                IsDuplicate__c
+                FROM Tourist__c
+            ];
+            List<Tourist__c> touristsDuplicate = new List<Tourist__c> ();
+            
+            for (Tourist__c touristFirst: newTourists) {
+                Integer count = 0;
+                
+                for (Tourist__c touristSecond: newTourists) {
+                    if (touristFirst.Email__c == touristSecond.Email__c && touristFirst.LastName__c == touristSecond.LastName__c) {
+                        count++;
+                        if (count > 1 && touristFirst.Id == touristSecond.Id) {
+                            touristSecond.IsDuplicate__c = true;
+                            touristsDuplicate.add(touristSecond);
+                        }
                     }
                 }
             }
+            update touristsDuplicate;
         }
-        update touristsDuplicate;
     }
 }
