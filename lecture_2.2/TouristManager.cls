@@ -1,6 +1,9 @@
 public class TouristManager {
     
     public static List<Tourist__c> getByName(String nameToSearch) {
+        if (String.isBlank(nameToSearch)) {
+            return new List<Tourist__c> ();
+        }
         List<Tourist__c> selectedNames = [
             SELECT Name,
             Age__c
@@ -10,19 +13,23 @@ public class TouristManager {
         return selectedNames;
     }
     
-    public static Set<Tourist__c> getSuitableAge(Integer AgeFirst, Integer AgeSecond, Integer AgeThird) {
-        Set<Tourist__c> ages = new Set<Tourist__c> ([
+    public static List<Tourist__c> getSuitableAge(Set<Integer> ages) {
+        if (ages == null || ages.isEmpty()) {
+                return new List<Tourist__c> ();
+            }
+        List<Tourist__c> agesFound = new List<Tourist__c> ([
             SELECT Name,
             Age__c
             FROM Tourist__c
-            WHERE Age__c =: AgeFirst
-            or Age__c =: AgeSecond
-            or Age__c =: AgeThird
+            WHERE Age__c IN : ages
         ]);
-        return ages;
+        return agesFound;
     }
     
     public static List<Tourist__c> getByStartDateYear(Integer year) {
+         if (year == null || String.valueOf(year).length() != 4) {
+                return new List<Tourist__c> ();
+            }
         List<Tourist__c> startDateYear = [
             SELECT Name, 
             Age__c

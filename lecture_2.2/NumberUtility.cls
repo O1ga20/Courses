@@ -2,7 +2,7 @@ public class NumberUtility {
     
     public static List<Integer> getPrimeNumbers(Integer limitNumberPrime) {
         if (limitNumberPrime == null || limitNumberPrime < 0) {
-            return new List<Integer>();
+            return new List<Integer> ();
         }
         List<Integer> primeList = new List<Integer> ();
         
@@ -23,7 +23,7 @@ public class NumberUtility {
     
     public static List<Integer> getFibonacciNumbers(Integer limitNumberFibonacci) {
         if (limitNumberFibonacci == null) {
-            return new List<Integer>();
+            return new List<Integer> ();
         }
         List<Integer> fibonacciList = new List<Integer> ();
         Integer n0 = 1;
