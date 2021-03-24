@@ -1,19 +1,18 @@
-public class ExceptionHw {
-    public class CusomException extends Exception {}
-
-    public static void methodFirst() {
-        
+public class ExceptionsPlayground {
+    public class CustomException extends Exception {}
+    
+    public static void generateCustomException() { 
         try {
             Tourist__c touristFirst = new Tourist__c();
             Insert touristFirst;
             Flight__c flighttouristFirst = new Flight__c(Status__c = 'Accepted', Tourist__c = touristFirst.Id, Trip__c = 'a085g0000011IV3AAM');
             Insert flighttouristFirst;
         } catch (DmlException e) {
-            throw new CusomException('An exception ' + e.getCause());
+            throw new CustomException('An exception ' + e.getCause());
         }
     }
-
-    public static void methodSecond() {
+    
+    public static void generateRegularException() {
         try {
             Tourist__c touristFirst = new Tourist__c();
             Flight__c nameFlight = [SELECT Name FROM Flight__c WHERE Tourist__c =: touristFirst.Id];
@@ -22,11 +21,11 @@ public class ExceptionHw {
             throw qe;
         }
     }
-
-    public static void methodThird() {
+    
+    public static void handleExceptions() {
         try {
-            methodFirst();
-            methodSecond();
+            generateCustomException();
+            generateRegularException();
         } catch (Exception x) {
             Tourist__c touristSecond = new Tourist__c(Name = 'Vova', LastName__c = 'Ivanov', Birthdate__c = Date.newInstance(2002, 1, 17));
             Insert touristSecond;
