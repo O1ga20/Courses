@@ -15,8 +15,8 @@ public class TouristManager {
     
     public static List<Tourist__c> getSuitableAge(Set<Integer> ages) {
         if (ages == null || ages.isEmpty()) {
-                return new List<Tourist__c> ();
-            }
+            return new List<Tourist__c> ();
+        }
         List<Tourist__c> agesFound = new List<Tourist__c> ([
             SELECT Name,
             Age__c
@@ -27,9 +27,9 @@ public class TouristManager {
     }
     
     public static List<Tourist__c> getByStartDateYear(Integer year) {
-         if (year == null || String.valueOf(year).length() != 4) {
-                return new List<Tourist__c> ();
-            }
+        if (year == null || String.valueOf(year).length() != 4) {
+            return new List<Tourist__c> ();
+        }
         List<Tourist__c> startDateYear = [
             SELECT Name, 
             Age__c
@@ -57,5 +57,15 @@ public class TouristManager {
             WHERE Id NOT IN(SELECT Tourist__c FROM Flight__c)
         ];
         return notRegistered;
+    }
+    
+    public static List<Tourist__c> getLastnameEmailIsDuplicate() {
+        List<Tourist__c> lastnameEmailDuplicate = [
+            SELECT LastName__c,
+            Email__c,
+            IsDuplicate__c
+            FROM Tourist__c
+        ];
+        return lastnameEmailDuplicate;
     }
 }
