@@ -59,24 +59,32 @@ public class TouristManager {
         return notRegistered;
     }
     
-    public static List<Tourist__c> getLastnameEmailIsDuplicate() {
-        List<Tourist__c> lastnameEmailDuplicate = [
+    public static List<Tourist__c> getTheSame(Set<String> lastnames, Set<String> emails) {
+        if ((lastnames == null && emails == null) || (lastnames.isEmpty() && emails.isEmpty())) {
+            return new List<Tourist__c> ();
+        }
+        List<Tourist__c> same = [
             SELECT LastName__c,
             Email__c,
             IsDuplicate__c
             FROM Tourist__c
+            WHERE LastName__c IN: lastnames AND Email__c IN: emails
         ];
-        return lastnameEmailDuplicate;
+        return same;
     }
     
-    public static Tourist__c getAge(Flight__c registration) {
-        if (registration == null) {
-            return new Tourist__c ();
+    public static List<Tourist__c> getIdAndAge(List<Flight__c> newFlights) {
+        if (newFlights == null || newFlights.isEmpty()) {
+            return new List<Tourist__c> ();
         }
-        Tourist__c touristAge = [
+        Set<Id> touristsFlights = new Set<Id> ();
+        for (Flight__c flight : newFlights) {
+            touristsFlights.add(flight.Tourist__c);
+        }
+        List<Tourist__c> touristAge = [
             SELECT Age__c
             FROM Tourist__c
-            WHERE Id =: registration.Tourist__c
+            WHERE Id IN: touristsFlights
         ];
         return touristAge;
     }

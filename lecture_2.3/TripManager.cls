@@ -15,16 +15,20 @@ public class TripManager {
         return andTourists;
     }
     
-    public static Trip__c getMinimumAgeStartDate(Flight__c registration) {
-        if (registration == null) {
-            return new Trip__c ();
+    public static List<Trip__c> getIdMinAgeDate(List<Flight__c> newFlights) {
+        if (newFlights == null || newFlights.isEmpty()) {
+            return new List<Trip__c> ();
         }
-        Trip__c tripFlight = [
+        Set<Id> tripFlights = new Set<Id> ();
+        for (Flight__c flight : newFlights) {
+            tripFlights.add(flight.Trip__c);
+        }
+        List<Trip__c> trips = [
             SELECT Minimum_Age__c,
             Start_Date__c
             FROM Trip__c
-            WHERE Id =: registration.Trip__c
+            WHERE Id IN: tripFlights
         ];
-        return tripFlight;
+        return trips;
     }
 }
