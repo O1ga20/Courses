@@ -2,7 +2,7 @@ public class FlightTriggerHandler {
     
     public static Boolean isFirstTime = true;
     
-    public static void validationRules(List<Flight__c> newFlights) {
+    public static void onBeforeInsert(List<Flight__c> newFlights) {
         if (newFlights == null || newFlights.isEmpty()) return;
         
         List<Tourist__c> touristsFlights = TouristManager.getIdAndAge(newFlights);
