@@ -11,7 +11,7 @@ public class TouristTriggerHandler {
         List<Flight__c> newStatus = new List<Flight__c> ();
         
         for (Flight__c flightFirst: flights) {
-            flightFirst.Status__c = Constants.STATUS_DECLINED;
+            flightFirst.Status__c = Constants.FLIGHT_STATUS_DECLINED;
             newStatus.add(flightFirst);            
         }
         update newStatus;
