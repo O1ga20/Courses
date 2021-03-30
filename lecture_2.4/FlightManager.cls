@@ -14,11 +14,11 @@ public class FlightManager {
         return statusTourist;
     }
     
-    public static List<Flight__c> getTripsAndTourists(List<Flight__c> newFlights){
+    public static List<Flight__c> getTripsAndTourists(List<Flight__c> newFlights) {
         if (newFlights == null || newFlights.isEmpty()) {
             return new List<Flight__c> ();
         }
-        List<Flight__c> tripsAndTourists =[
+        List<Flight__c> tripsAndTourists = [
             SELECT Tourist__c,
             Trip__c,
             Tourist__r.Age__c, 
@@ -30,7 +30,7 @@ public class FlightManager {
         return tripsAndTourists;
     }
     
-    public static Flight__c getName(Tourist__c tourist){
+    public static Flight__c getName(Tourist__c tourist) {
         if (tourist == null) {
             return new Flight__c ();
         }
