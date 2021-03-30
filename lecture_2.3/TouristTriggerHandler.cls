@@ -1,5 +1,4 @@
 public class TouristTriggerHandler {
-    
     public static Boolean isFirstTime = true;
     
     public static void onBeforeInsert(List<Tourist__c> newTourists) {
@@ -8,11 +7,11 @@ public class TouristTriggerHandler {
     
     public static void onAfterUpdate(List<Tourist__c> newTourists) {
         if (newTourists == null || newTourists.isEmpty()) return;
-        List<Flight__c> flights = FlightManager.getStatusTourist(newTourists);
-        List<FlIght__c> newStatus = new List<FlIght__c> ();
+        List<Flight__c> flights = FlightManager.getByActiveTourists(newTourists);
+        List<Flight__c> newStatus = new List<Flight__c> ();
         
         for (Flight__c flightFirst: flights) {
-            flightFirst.Status__c = 'Declined';
+            flightFirst.Status__c = Constants.STATUS_DECLINED;
             newStatus.add(flightFirst);            
         }
         update newStatus;

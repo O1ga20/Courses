@@ -14,9 +14,9 @@ public class TouristService {
         for (Tourist__c touristFirst : newTourists) {
             
             for (Tourist__c touristSecond : touristsAll) {
-                Boolean isEmail = (touristFirst.Email__c == touristSecond.Email__c);
-                Boolean isLastName = (touristFirst.LastName__c == touristSecond.LastName__c);
-                if (isEmail && isLastName) {
+                Boolean isSameEmail = (touristFirst.Email__c == touristSecond.Email__c);
+                Boolean isSameLastName = (touristFirst.LastName__c == touristSecond.LastName__c);
+                if (isSameEmail && isSameLastName) {
                     touristFirst.IsDuplicate__c = true;
                 }
             }

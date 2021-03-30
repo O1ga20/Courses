@@ -73,7 +73,7 @@ public class TouristManager {
         return same;
     }
     
-    public static List<Tourist__c> getIdAndAge(List<Flight__c> newFlights) {
+    public static List<Tourist__c> getByFlights(List<Flight__c> newFlights) {
         if (newFlights == null || newFlights.isEmpty()) {
             return new List<Tourist__c> ();
         }

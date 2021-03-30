@@ -1,17 +1,17 @@
 public class FlightManager {
     
-    public static List<Flight__c> getStatusTourist(List<Tourist__c> newTourists) {
+    public static List<Flight__c> getByActiveTourists(List<Tourist__c> newTourists) {
         if (newTourists == null || newTourists.isEmpty()) {
             return new List<Flight__c> ();
         }
-        List<Flight__c> statusTourist = [
+        List<Flight__c> notActiveTourists = [
             SELECT Status__c,
             Tourist__c,
             Tourist__r.Active__c
             FROM Flight__c
             WHERE Tourist__r.Active__c = false AND Tourist__c = :newTourists
         ];
-        return statusTourist;
+        return notActiveTourists;
     }
     
     public static List<Flight__c> getTripsAndTourists(List<Flight__c> newFlights) {

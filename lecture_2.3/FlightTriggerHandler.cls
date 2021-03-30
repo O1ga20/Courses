@@ -1,15 +1,14 @@
 public class FlightTriggerHandler {
-    
     public static Boolean isFirstTime = true;
     
     public static void onBeforeInsert(List<Flight__c> newFlights) {
         if (newFlights == null || newFlights.isEmpty()) return;
         
-        List<Tourist__c> touristsFlights = TouristManager.getIdAndAge(newFlights);
-        Map<Id,Tourist__c> touristsMap = new Map<Id,Tourist__c> (touristsFlights);
+        List<Tourist__c> tourists = TouristManager.getByFlights(newFlights);
+        Map<Id,Tourist__c> touristsMap = new Map<Id,Tourist__c> (tourists);
         
-        List<Trip__c> tripsFlights = TripManager.getIdMinAgeDate(newFlights);
-        Map<Id,Trip__c> tripsMap = new Map<Id,Trip__c> (tripsFlights);
+        List<Trip__c> trips = TripManager.getIdMinAgeDate(newFlights);
+        Map<Id,Trip__c> tripsMap = new Map<Id,Trip__c> (trips);
         
         for (Flight__c flight: newFlights) {
             Tourist__c tourist = touristsMap.get(flight.Tourist__c);
