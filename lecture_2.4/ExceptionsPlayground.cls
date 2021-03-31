@@ -5,7 +5,7 @@ public class ExceptionsPlayground {
         try {
             Tourist__c touristFirst = new Tourist__c ();
             Insert touristFirst;
-            Flight__c flighttouristFirst = new Flight__c (Status__c = 'Accepted', 
+            Flight__c flighttouristFirst = new Flight__c (Status__c = Constants.FLIGHT_STATUS_ACCEPTED, 
                                                           Tourist__c = touristFirst.Id, 
                                                           Trip__c = 'a085g0000011IV3AAM');
             Insert flighttouristFirst;
@@ -33,7 +33,7 @@ public class ExceptionsPlayground {
                                                        LastName__c = 'Ivanov', 
                                                        Birthdate__c = Date.newInstance(2002, 1, 17));
             Insert touristSecond;
-            Flight__c flightTouristSecond = new Flight__c (Status__c = 'Accepted', 
+            Flight__c flightTouristSecond = new Flight__c (Status__c = Constants.FLIGHT_STATUS_ACCEPTED, 
                                                            Tourist__c = touristSecond.Id, 
                                                            Trip__c = 'a085g0000011IV3AAM');
             Insert flightTouristSecond;
