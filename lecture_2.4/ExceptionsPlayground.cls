@@ -11,7 +11,7 @@ public class ExceptionsPlayground {
             );
             Insert flighttouristFirst;
         } catch (DmlException e) {
-            throw new CustomException('An exception ' + e.getCause());
+            throw new CustomException(Constants.EXECEPTION_TEXT + e.getCause());
         }
     }
     
@@ -20,7 +20,7 @@ public class ExceptionsPlayground {
             Tourist__c touristFirst = new Tourist__c ();
             Flight__c nameFlight = FlightManager.getName(touristFirst);
         } catch (QueryException qe) {
-            System.debug('The following exception has occurred: ' + qe.getMessage());
+            System.debug(Constants.EXECEPTION_TEXT + qe.getMessage());
         }
     }
     

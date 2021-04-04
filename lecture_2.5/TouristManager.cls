@@ -82,7 +82,9 @@ public class TouristManager {
             touristsFlights.add(flight.Tourist__c);
         }
         List<Tourist__c> touristAge = [
-            SELECT Age__c
+            SELECT Name,
+            LastName__c,
+            Age__c
             FROM Tourist__c
             WHERE Id IN: touristsFlights
         ];
