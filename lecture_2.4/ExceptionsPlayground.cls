@@ -9,19 +9,15 @@ public class ExceptionsPlayground {
                 Tourist__c = touristFirst.Id,
                 Trip__c = 'a085g0000011IV3AAM'
             );
-            Insert flighttouristFirst;
+            insert flighttouristFirst;
         } catch (DmlException e) {
             throw new CustomException(Constants.EXECEPTION_TEXT + e.getCause());
         }
     }
     
     public static void generateRegularException() {
-        try {
-            Tourist__c touristFirst = new Tourist__c ();
-            Flight__c nameFlight = FlightManager.getName(touristFirst);
-        } catch (QueryException qe) {
-            System.debug(Constants.EXECEPTION_TEXT + qe.getMessage());
-        }
+        Tourist__c touristFirst = new Tourist__c ();
+        Flight__c nameFlight = FlightManager.getName(touristFirst);
     }
     
     public static void handleExceptions() {
