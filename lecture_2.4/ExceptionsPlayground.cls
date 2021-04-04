@@ -29,11 +29,11 @@ public class ExceptionsPlayground {
             generateCustomException();
             generateRegularException();
         } catch(DmlException e) {
-            System.debug('DmlException caught');    
+            System.debug(Constants.EXECEPTION_DML);    
         } catch(QueryException qe) {
-            System.debug('QueryException caught');    
+            System.debug(Constants.EXECEPTION_QUERY);    
         } catch(Exception ex) {
-            System.debug('Exception caught');    
+            System.debug(Constants.EXECEPTION_GENERAL);    
         }
     }
 }
