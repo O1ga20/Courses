@@ -17,7 +17,7 @@ public class ExceptionsPlayground {
     
     public static void generateRegularException() {
         Tourist__c touristFirst = new Tourist__c ();
-        Flight__c nameFlight = FlightManager.getName(touristFirst);
+        insert touristFirst;
     }
     
     public static void handleExceptions() {
