@@ -38,7 +38,7 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
         message.subject = 'Flight cleaner Batch';
         for (Tourist__c tourist : tourists) {
             recordlink += '<a href="' + URL.getSalesforceBaseUrl().toExternalForm() + '/' + tourist.Id + '">"' 
-                + tourist.Name + ' ' + tourist.LastName__c + '"</a>.' + ' : ' + touristOnFlight.get(tourist) + '<br>';
+                + tourist.Name + ' ' + tourist.LastName__c + '"</a>' + ' : ' + touristOnFlight.get(tourist) + '<br>';
         }
         message.setHtmlBody('Batch completed. Flights removed. ' +
                             'Tourists and the number of remote flights for each tourist: ' + '<br>' + recordlink);
