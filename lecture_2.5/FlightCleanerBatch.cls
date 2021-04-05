@@ -1,4 +1,4 @@
-public class FlightCleanerBatch implements Database.Batchable<sObject>, Database.Stateful, Database.RaisesPlatformEvents {
+public with sharing class FlightCleanerBatch implements Database.Batchable<sObject>, Database.Stateful, Database.RaisesPlatformEvents {
     private final String query = 
         'SELECT Id, Status__c, CreatedDate, Tourist__c ' +
         'FROM Flight__c ' +
@@ -6,6 +6,7 @@ public class FlightCleanerBatch implements Database.Batchable<sObject>, Database
     private Integer counter = 1;
     private Map<Tourist__c, Integer> touristOnFlight = new Map<Tourist__c, Integer> ();
     private List<Tourist__c> tourists = new List<Tourist__c> ();
+    private String recordlink = '';
     
     public Database.QueryLocator start(Database.BatchableContext BC) {
         return Database.getQueryLocator(query);
@@ -35,9 +36,12 @@ public class FlightCleanerBatch implements Database.Batchable<sObject>, Database
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.toAddresses = new String[] {mail.Email__c};
         message.subject = 'Flight cleaner Batch';
-        message.plainTextBody = 'Batch completed. Flights removed. ' +
-            'Tourists were registered on these flights: ' + tourists +
-            'Tourists and the number of remote flights for each tourist: ' + touristOnFlight;
+        for (Tourist__c tourist : tourists) {
+            recordlink += '<a href="' + URL.getSalesforceBaseUrl().toExternalForm() + '/' + tourist.Id + '">"' 
+                + tourist.Name + ' ' + tourist.LastName__c +'"</a>.' + ' : ' + touristOnFlight.get(tourist) + '<br>';
+        }
+        message.setHtmlBody('Batch completed. Flights removed. ' +
+                            'Tourists and the number of remote flights for each tourist: ' + '<br>' + recordlink);
         Messaging.sendEmail(new Messaging.SingleEmailMessage[] {message});
     }
 }
