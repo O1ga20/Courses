@@ -7,9 +7,9 @@ global class FlightCleanerSchedule implements Schedulable {
 /*Apex-script 2.5.4
 FlightCleanerSchedule cleaner = new FlightCleanerSchedule();
 String sch = '0 0 0 * * ?';
-String jobID = System.schedule('Cleaning flights everyday', sch, cleaner);
+String jobID = System.schedule('Cleaning flights', sch, cleaner);
 
 Apex-script 2.5.4.1
 FlightCleanerSchedule cleaner = new FlightCleanerSchedule();
 String sch = '0 30 * * * ?';
-String jobID = System.schedule('Cleaning flights every half hour', sch, cleaner);*/
+String jobID = System.schedule('Cleaning flights', sch, cleaner);*/

@@ -8,7 +8,7 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
     private List<Tourist__c> tourists = new List<Tourist__c> ();
     private String recordlink = '';
     
-    public Database.QueryLocator start(Database.BatchableContext BC) {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(query);
     }
     
@@ -19,7 +19,8 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
         for (Flight__c flight : flights) {
             Tourist__c tourist = touristsMap.get(flight.Tourist__c);
             if(touristOnFlight.containsKey(tourist)) {
-                touristOnFlight.put(tourist, counter++);
+                counter = touristOnFlight.get(tourist) + 1;
+                touristOnFlight.put(tourist, counter);
             } else {
                 touristOnFlight.put(tourist, 1);
             }
@@ -27,21 +28,24 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
         delete flights;
     }
     
-    public void finish(Database.BatchableContext BC) {
-        Send_Email__mdt mail = [
-            SELECT Id, 
-            Email__c
-            FROM Send_Email__mdt LIMIT 1
-        ];
+    public void finish(Database.BatchableContext bc) {
+        List<String> emails = EmailService.getEmails();
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        message.toAddresses = new String[] {mail.Email__c};
-        message.subject = 'Flight cleaner Batch';
+        message.setToAddresses(emails);
+        message.setSubject(Constants.EMAIL_SUBJECT_FLIGHT_CLEANER);
+        
         for (Tourist__c tourist : tourists) {
-            recordlink += '<a href="' + URL.getSalesforceBaseUrl().toExternalForm() + '/' + tourist.Id + '">"' 
-                + tourist.Name + ' ' + tourist.LastName__c + '"</a>' + ' : ' + touristOnFlight.get(tourist) + '<br>';
+            recordlink += (
+                '<a href=' + URL.getSalesforceBaseUrl().toExternalForm() + '/' + tourist.Id + '>' 
+                + tourist.Name + ' ' + tourist.LastName__c + '</a>' + 
+                ' : ' + touristOnFlight.get(tourist) + '<br>'
+            );
         }
-        message.setHtmlBody('Batch completed. Flights removed. ' +
-                            'Tourists and the number of remote flights for each tourist: ' + '<br>' + recordlink);
+        message.setHtmlBody(
+            'Batch completed. Flights removed. ' +
+            'Tourists and the number of remote flights for each tourist: <br>' + 
+            recordlink
+        );
         Messaging.sendEmail(new Messaging.SingleEmailMessage[] {message});
     }
 }

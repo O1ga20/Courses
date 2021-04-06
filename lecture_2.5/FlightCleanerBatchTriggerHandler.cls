@@ -1,4 +1,5 @@
 public class FlightCleanerBatchTriggerHandler {
+    public static Boolean isFirstTime = true;
     
     public static void onAfterInsert(List<BatchApexErrorEvent> errors) {
         Set<Id> asyncApexJobIds = new Set<Id> ();
@@ -6,16 +7,16 @@ public class FlightCleanerBatchTriggerHandler {
         for(BatchApexErrorEvent evt : errors) {
             asyncApexJobIds.add(evt.AsyncApexJobId);
         }
-        Map<Id, AsyncApexJob> jobs = new Map<Id, AsyncApexJob> (
-            [SELECT Id, 
-             ApexClass.Name 
-             FROM AsyncApexJob 
-             WHERE Id IN :asyncApexJobIds]
-        );
+        Map<Id, AsyncApexJob> jobs = new Map<Id, AsyncApexJob> ([
+            SELECT Id, 
+            ApexClass.Name 
+            FROM AsyncApexJob 
+            WHERE Id IN :asyncApexJobIds
+        ]);
         List<Error_Log__c> records = new List<Error_Log__c> ();
         
         for(BatchApexErrorEvent evt : errors) {
-            if(jobs.get(evt.AsyncApexJobId).ApexClass.Name == 'AccountUpdaterJob') {
+            if(jobs.get(evt.AsyncApexJobId).ApexClass.Name == 'FlightCleanerBatch') {
                 
                 for (String item : evt.JobScope.split(',')) {
                     Error_Log__c record = new Error_Log__c(
@@ -27,6 +28,6 @@ public class FlightCleanerBatchTriggerHandler {
                 }
             }
         }
-        update records;
+        insert records;
     }
 }
