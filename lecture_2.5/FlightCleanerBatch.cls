@@ -2,11 +2,11 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
     private final String query = 
         'SELECT Id, Status__c, CreatedDate, Tourist__c ' +
         'FROM Flight__c ' +
-        'WHERE Status__c = \'Declined\' OR CreatedDate> NEXT_N_DAYS: 30';
+        'WHERE Status__c = \'Declined\' OR CreatedDate > NEXT_N_DAYS: 30';
     private Integer counter = 1;
     private Map<Tourist__c, Integer> touristOnFlight = new Map<Tourist__c, Integer> ();
     private List<Tourist__c> tourists = new List<Tourist__c> ();
-    private String recordlink = '';
+    private String recordLink = '';
     
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(query);
@@ -29,13 +29,13 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
     }
     
     public void finish(Database.BatchableContext bc) {
-        List<String> emails = EmailService.getEmails();
+        List<String> emails = EmailService.getEmailsMetadata();
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.setToAddresses(emails);
         message.setSubject(Constants.EMAIL_SUBJECT_FLIGHT_CLEANER);
         
         for (Tourist__c tourist : tourists) {
-            recordlink += (
+            recordLink += (
                 '<a href=' + URL.getSalesforceBaseUrl().toExternalForm() + '/' + tourist.Id + '>' 
                 + tourist.Name + ' ' + tourist.LastName__c + '</a>' + 
                 ' : ' + touristOnFlight.get(tourist) + '<br>'

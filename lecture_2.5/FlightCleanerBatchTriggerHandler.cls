@@ -7,12 +7,7 @@ public class FlightCleanerBatchTriggerHandler {
         for(BatchApexErrorEvent evt : errors) {
             asyncApexJobIds.add(evt.AsyncApexJobId);
         }
-        Map<Id, AsyncApexJob> jobs = new Map<Id, AsyncApexJob> ([
-            SELECT Id, 
-            ApexClass.Name 
-            FROM AsyncApexJob 
-            WHERE Id IN :asyncApexJobIds
-        ]);
+        Map<Id, AsyncApexJob> jobs = new Map<Id, AsyncApexJob> (AsyncJobManager.getJobs(asyncApexJobIds));
         List<Error_Log__c> records = new List<Error_Log__c> ();
         
         for(BatchApexErrorEvent evt : errors) {

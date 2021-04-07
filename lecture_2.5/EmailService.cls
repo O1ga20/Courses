@@ -1,6 +1,6 @@
 public class EmailService {
     
-    public static List<String> getEmails() {
+    public static List<String> getEmailsMetadata() {
         List<Send_Email__mdt> mailsMetadata = [
             SELECT Id, 
             Email__c
