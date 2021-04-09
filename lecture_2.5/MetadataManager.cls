@@ -1,6 +1,6 @@
-public class EmailService {
+public class MetadataManager {
     
-    public static List<String> getEmailsMetadata() {
+    public static List<String> getEmails() {
         List<Send_Email__mdt> mailsMetadata = [
             SELECT Id, 
             Email__c
