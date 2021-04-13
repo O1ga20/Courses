@@ -10,4 +10,5 @@ public class Constants {
     public static final String EXECEPTION_GENERAL = 'Exception caught.';
     public static final Integer FLIGHT_CLEANER_DAYS = 30;
     public static final String EMAIL_SUBJECT_FLIGHT_CLEANER = 'Flight cleaner Batch';
+    public static final String CUSTOM_METADATA_TYPE_NAME = 'Send_Email__mdt';
 }

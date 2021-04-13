@@ -1,9 +1,15 @@
 public class EmailService {
     
-    public static void sendEmailBatch(Map<Id, Integer> touristOnFlight) {
+    public static void sendEmailFromFlightCleanerBatch(Map<Id, Integer> touristOnFlight) {
         String recordLink = '';
         List<Tourist__c> tourists = TouristManager.getTourists(touristOnFlight.keySet());
-        List<String> emails = MetadataManager.getEmails();
+        String customMetadataTypeName = Constants.CUSTOM_METADATA_TYPE_NAME;
+        List<SObject> records = CustomMetadataTypeManager.getCustomMetadataRecords(customMetadataTypeName);
+        List<String> emails = new List<String> ();
+        
+        for (SObject record : records) {
+            emails.add(String.valueOf(record.get('Email__c')));
+        }
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.setToAddresses(emails);
         message.setSubject(Constants.EMAIL_SUBJECT_FLIGHT_CLEANER);

@@ -1,7 +1,7 @@
-trigger FlightCleanerBatchTrigger on BatchApexErrorEvent (after insert) {
+trigger BatchApexErrorEventTrigger on BatchApexErrorEvent (after insert) {
     
-    if(TouristTriggerHandler.isFirstTime){
-        TouristTriggerHandler.isFirstTime = false;
+    if(BatchApexErrorEventTriggerHandler.isFirstTime){
+       BatchApexErrorEventTriggerHandler.isFirstTime = false;
         
         switch on Trigger.operationType {
             when AFTER_INSERT {

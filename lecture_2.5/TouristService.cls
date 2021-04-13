@@ -11,14 +11,15 @@ public class TouristService {
             lastnames.add(t.LastName__c);
             emails.add(t.Email__c);
         }
-        List<Tourist__c> touristsAll = TouristManager.getTheSame(lastnames, emails);
+        List<Tourist__c> existingTourist  = TouristManager.getTheSame(lastnames, emails);
         
         for (Tourist__c touristFirst : newTourists) {
             
-            for (Tourist__c touristSecond : touristsAll) {
+            for (Tourist__c touristSecond : existingTourist ) {
                 Boolean isSameEmail = (touristFirst.Email__c == touristSecond.Email__c);
                 Boolean isSameLastName = (touristFirst.LastName__c == touristSecond.LastName__c);
-                if (isSameEmail && isSameLastName) {
+                Boolean isSameId = (touristFirst.Id == touristSecond.Id);
+                if (isSameEmail && isSameLastName && !isSameId) {
                     touristFirst.IsDuplicate__c = true;
                 }
             }

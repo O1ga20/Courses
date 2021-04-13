@@ -1,16 +1,16 @@
-public class MetadataManager {
+public class CustomMetadataTypeManager {
     
-    public static List<String> getEmails() {
-        List<Send_Email__mdt> mailsMetadata = [
-            SELECT Id, 
-            Email__c
-            FROM Send_Email__mdt
-        ];
-        List<String> emails = new List<String>();
+    public static List<SObject> getCustomMetadataRecords(String customMetadataTypeName) {
+        Map<String,Schema.SObjectField> fields = Schema.getGlobalDescribe().get(customMetadataTypeName).getDescribe().fields.getMap();
+        List<String> fieldsForQuery = new List<String>();
         
-        for (Send_Email__mdt email : mailsMetadata) {
-            emails.add(email.Email__c);
+        for (String field : fields.keySet()) {
+            fieldsForQuery.add(String.valueOf(fields.get(field)));
         }
-        return emails;
+        String query = 
+            'SELECT ' + String.join(fieldsForQuery, ', ') + 
+            ' FROM ' + customMetadataTypeName;
+        List<SObject> records = Database.query(query);
+        return records;
     }
 }
