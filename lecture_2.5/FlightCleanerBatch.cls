@@ -12,18 +12,16 @@ public with sharing class FlightCleanerBatch implements Database.Batchable<sObje
     }
     
     public void execute(Database.BatchableContext BC, List<Flight__c> flights) {
-        Database.DeleteResult[] drflights = Database.delete(flights, false);
+        Database.DeleteResult[] deleteResults = Database.delete(flights, false);
+        Map<Id, Flight__c> flightById = new Map<Id, Flight__c> (flights);
         
-        for(Database.DeleteResult dr : drflights) {
-            if (dr.isSuccess()) {
-                
-                for (Flight__c flight : flights) {
-                    if(touristOnFlight.containsKey(flight.Tourist__c)) {
-                        counter = touristOnFlight.get(flight.Tourist__c) + 1;
-                        touristOnFlight.put(flight.Tourist__c, counter);
-                    } else {
-                        touristOnFlight.put(flight.Tourist__c, 1);
-                    }
+        for(Database.DeleteResult deleteResult : deleteResults) {
+            if (deleteResult.isSuccess()) {
+                if(touristOnFlight.containsKey(flightById.get(deleteResult.getId()).Tourist__c)) {
+                    counter = touristOnFlight.get(flightById.get(deleteResult.getId()).Tourist__c) + 1;
+                    touristOnFlight.put(flightById.get(deleteResult.getId()).Tourist__c, counter);
+                } else {
+                    touristOnFlight.put(flightById.get(deleteResult.getId()).Tourist__c, 1);
                 }
             }
         }
