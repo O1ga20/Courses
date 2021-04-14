@@ -1,6 +1,6 @@
 public class CustomMetadataTypeManager {
     
-    public static List<SObject> getCustomMetadataRecords(String customMetadataTypeName) {
+    public static List<SObject> getRecords(String customMetadataTypeName) {
         Map<String,Schema.SObjectField> fields = Schema.getGlobalDescribe().get(customMetadataTypeName).getDescribe().fields.getMap();
         List<String> fieldsForQuery = new List<String>();
         

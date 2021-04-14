@@ -4,7 +4,7 @@ public class EmailService {
         String recordLink = '';
         List<Tourist__c> tourists = TouristManager.getTourists(touristOnFlight.keySet());
         String customMetadataTypeName = Constants.CUSTOM_METADATA_TYPE_NAME;
-        List<SObject> records = CustomMetadataTypeManager.getCustomMetadataRecords(customMetadataTypeName);
+        List<SObject> records = CustomMetadataTypeManager.getRecords(customMetadataTypeName);
         List<String> emails = new List<String> ();
         
         for (SObject record : records) {
