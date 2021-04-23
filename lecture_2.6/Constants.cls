@@ -1,0 +1,17 @@
+public class Constants {
+    
+    public static final String ERROR_AGE = 'Not suitable for age.';
+    public static final String ERROR_DATE = 'Already flew away.';
+    public static final String FLIGHT_STATUS_DECLINED = 'Declined';
+    public static final String FLIGHT_STATUS_ACCEPTED = 'Accepted';
+    public static final String EXECEPTION_TEXT = 'The following exception has occurred: ';
+    public static final String EXECEPTION_DML = 'DmlException caught.';
+    public static final String EXECEPTION_QUERY = 'QueryException caught.';
+    public static final String EXECEPTION_GENERAL = 'Exception caught.';
+    public static final Integer FLIGHT_CLEANER_DAYS = 30;
+    public static final String EMAIL_SUBJECT_FLIGHT_CLEANER = 'Flight cleaner Batch';
+    public static final String CUSTOM_METADATA_TYPE_NAME = 'Send_Email__mdt';
+    public static final String RESPONSE_BODY_TOURIST_NAME_EMPTY = 'The name must be not empty.';
+    public static final String RESPONSE_BODY_TOURIST_AGE_NOT_NUMBER = 'The age must be a number.';
+    public static final String DUPLICATE = 'Duplicate.';
+}
