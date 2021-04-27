@@ -106,9 +106,9 @@ public class TouristManager {
         return tourists;
     }
     
-    public static List<List<Tourist__c>> getSameNameAge(String touristName, String touristAge) {
+    public static List<Tourist__c> getSameNameAge(String touristName, String touristAge) {
         if (touristname  == null || touristAge == null) {
-            return new List<List<Tourist__c>> ();
+            return new List<Tourist__c> ();
         }
         List<List<Tourist__c>> result = [
             FIND :touristName
@@ -118,6 +118,7 @@ public class TouristManager {
                 WHERE Name = :touristName AND Age__c = :Integer.valueOf(touristAge)
             )
         ];
-        return result;
+        List<Tourist__c> foundTourists = ((List<Tourist__c>)result[0]);
+        return foundTourists;
     }
 }

@@ -1,11 +1,11 @@
 @RestResource(urlMapping='/Tourist/*')
 global with sharing class TouristRestService {
-     
+    
     @HttpGet
     global static void getTourists() {
         RestRequest request = RestContext.request;
         RestResponse response = RestContext.response;
-        Map<String,String> paramsMap = request.params;
+        Map<String, String> paramsMap = request.params;
         String touristName = paramsMap.get('name');
         String touristAge = paramsMap.get('age');
         if(String.isEmpty(touristName)) {
@@ -23,7 +23,7 @@ global with sharing class TouristRestService {
             response.statusCode = 404;
             return;
         } 
-        List<List<Tourist__c>> result = TouristManager.getSameNameAge(touristName, touristAge);
+        List<Tourist__c> result = TouristManager.getSameNameAge(touristName, touristAge);
         response.responseBody = Blob.valueOf(JSON.serializePretty(result));
         response.statusCode = 200;
     }

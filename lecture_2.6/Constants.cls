@@ -14,4 +14,6 @@ public class Constants {
     public static final String RESPONSE_BODY_TOURIST_NAME_EMPTY = 'The name must be not empty.';
     public static final String RESPONSE_BODY_TOURIST_AGE_NOT_NUMBER = 'The age must be a number.';
     public static final String DUPLICATE = 'Duplicate.';
+    public static final String URL_RAPIDAPI_WEATHERBIT = 'https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily';
+    public static final String METHOD_HTTP_GET = 'GET';
 }
