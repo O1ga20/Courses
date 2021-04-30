@@ -15,5 +15,12 @@ public class Constants {
     public static final String RESPONSE_BODY_TOURIST_AGE_NOT_NUMBER = 'The age must be a number.';
     public static final String DUPLICATE = 'Duplicate.';
     public static final String URL_RAPIDAPI_WEATHERBIT = 'https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily';
+    public static final String REQUEST_HEADER_RAPIDAPI_KEY_TEXT = 'x-rapidapi-key';
+    public static final String REQUEST_HEADER_RAPIDAPI_KEY = 'dbba4ce498msh0a2aa20f5b276eep1affd2jsn972508114931';
+    public static final String REQUEST_HEADER_RAPIDAPI_HOST_TEXT = 'x-rapidapi-host';
+    public static final String REQUEST_HEADER_RAPIDAPI_HOST = 'weatherbit-v1-mashape.p.rapidapi.com';
     public static final String METHOD_HTTP_GET = 'GET';
+    public static final Integer RESPONSE_STATUS_CODE_404 = 404;
+    public static final Integer RESPONSE_STATUS_CODE_200 = 200;
+    public static final Integer RESPONSE_STATUS_CODE_409 = 409; 
 }

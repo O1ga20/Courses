@@ -1,31 +1,33 @@
 @RestResource(urlMapping='/Tourist/*')
 global with sharing class TouristRestService {
+    private static final String REQUEST_PARAMS_FUZZYNAME = 'fuzzyname';
+    private static final String REQUEST_PARAMS_AGE = 'age';
     
     @HttpGet
     global static void getTourists() {
         RestRequest request = RestContext.request;
         RestResponse response = RestContext.response;
         Map<String, String> paramsMap = request.params;
-        String touristName = paramsMap.get('name');
-        String touristAge = paramsMap.get('age');
+        String touristName = paramsMap.get(REQUEST_PARAMS_FUZZYNAME);
+        String touristAge = paramsMap.get(REQUEST_PARAMS_AGE);
         if(String.isEmpty(touristName)) {
             response.responseBody = Blob.valueOf(Constants.RESPONSE_BODY_TOURIST_NAME_EMPTY);
-            response.statusCode = 404;
+            response.statusCode = Constants.RESPONSE_STATUS_CODE_404;
             return;
         } 
         if(String.isEmpty(touristAge)) {
-            List<Tourist__c> resultWithoutAge = TouristManager.getByName(touristName);
+            List<Tourist__c> resultWithoutAge = TouristManager.getByNameSOSL(touristName);
             response.responseBody = Blob.valueOf(JSON.serializePretty(resultWithoutAge));
-            response.statusCode = 200;
+            response.statusCode = Constants.RESPONSE_STATUS_CODE_200;
             return;
         } else if(!touristAge.isNumeric()) {
             response.responseBody = Blob.valueOf(Constants.RESPONSE_BODY_TOURIST_AGE_NOT_NUMBER);
-            response.statusCode = 404;
+            response.statusCode = Constants.RESPONSE_STATUS_CODE_404;
             return;
         } 
         List<Tourist__c> result = TouristManager.getSameNameAge(touristName, touristAge);
         response.responseBody = Blob.valueOf(JSON.serializePretty(result));
-        response.statusCode = 200;
+        response.statusCode = Constants.RESPONSE_STATUS_CODE_200;
     }
     
     @HttpPost
@@ -40,7 +42,7 @@ global with sharing class TouristRestService {
         List<Tourist__c> same = TouristManager.getTheSame(new Set<String> {lastName}, new Set<String> {email});
         if(!same.isEmpty()) {
             response.responseBody = Blob.valueOf(Constants.DUPLICATE);
-            response.statusCode = 409;
+            response.statusCode = Constants.RESPONSE_STATUS_CODE_409;
         } 
         insert newTourist;
     }

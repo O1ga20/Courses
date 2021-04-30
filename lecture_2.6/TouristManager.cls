@@ -106,6 +106,21 @@ public class TouristManager {
         return tourists;
     }
     
+    public static List<Tourist__c> getByNameSOSL(String nameToSearch) {
+        if (String.isBlank(nameToSearch)) {
+            return new List<Tourist__c> ();
+        }
+        List<List<Tourist__c>> selected = [
+            FIND :nameToSearch
+            RETURNING Tourist__c (
+                Name,
+                Age__c
+                WHERE Name = :nameToSearch)
+        ];
+        List<Tourist__c> selectedNames = ((List<Tourist__c>)selected[0]);
+        return selectedNames;
+    }
+    
     public static List<Tourist__c> getSameNameAge(String touristName, String touristAge) {
         if (touristname  == null || touristAge == null) {
             return new List<Tourist__c> ();
@@ -115,8 +130,7 @@ public class TouristManager {
             RETURNING Tourist__c (
                 Name, 
                 Age__c 
-                WHERE Name = :touristName AND Age__c = :Integer.valueOf(touristAge)
-            )
+                WHERE Name = :touristName AND Age__c = :Integer.valueOf(touristAge))
         ];
         List<Tourist__c> foundTourists = ((List<Tourist__c>)result[0]);
         return foundTourists;
