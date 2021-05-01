@@ -8,7 +8,7 @@ public with sharing class WeatherForecastService {
         HttpRequest req = new HttpRequest();
         req.setMethod(Constants.METHOD_HTTP_GET);
         req.setEndpoint(
-            Constants.URL_RAPIDAPI_WEATHERBIT + '?lat=' + latitude +
+            'callout:Rapidapi_Weatherbit' + '?lat=' + latitude +
             '&lon=' + longitude
         );
         req.setHeader(Constants.REQUEST_HEADER_RAPIDAPI_KEY_TEXT, Constants.REQUEST_HEADER_RAPIDAPI_KEY);
@@ -30,7 +30,7 @@ public with sharing class WeatherForecastService {
                 }
             }
         } catch (WeatherForecastException e) {
-            throw e;
+            System.debug(LoggingLevel.ERROR, e.getMessage());
         } 
         return temperatureByDate;
     }
