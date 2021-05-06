@@ -10,8 +10,9 @@ public class TestDataFactory {
                 Email__c = 'romandlickaya@gmail.com'),
              new Tourist__c(
                 Name = 'Ira', 
-                LastName__c = 'Ivanova', 
-                Birthdate__c = Date.valueOf('2000-08-22')),
+                LastName__c = 'Taras', 
+                Birthdate__c = Date.valueOf('2000-08-22'),
+                Email__c = 'ckaya@gmail.com'),
              new Tourist__c(
                 Name = 'Vova', 
                 LastName__c = 'Ivanov', 
@@ -20,14 +21,17 @@ public class TestDataFactory {
         insert tourists;
     }
     
-    public static void createTourist() {
-        List<Tourist__c> tourists = new List<Tourist__c> {
+    public static List<Tourist__c> createTourist() {
+        List<Tourist__c> tourist = new List<Tourist__c> {
             new Tourist__c(
                 Name = 'Inga', 
                 LastName__c = 'Taras', 
-                Birthdate__c = Date.valueOf('2016-01-01'))
+                Birthdate__c = Date.valueOf('2016-01-01'),
+                Email__c = 'romandlickaya@gmail.com',
+                Active__c = false)
             };
-        insert tourists;
+        insert tourist;
+        return tourist;
     }
     
     public static void createTrips() {
@@ -43,20 +47,15 @@ public class TestDataFactory {
     }
     
     public static void createFlights() {
-        createTourist();
         createTrips();
-        List<Tourist__c> tourists = getTourists();
+        List<Tourist__c> tourists = createTourist();
         List<Trip__c> trips = getTrips();
         List<Flight__c> flights = new List<Flight__c> {
             new Flight__c(
                 Status__c = 'Accepted',
                 Tourist__c = tourists[0].Id,
-                Trip__c = trips[0].Id),
-            new Flight__c(
-                Status__c = 'Accepted',
-                Tourist__c = tourists[0].Id,
-                Trip__c = trips[1].Id)
-                };
+                Trip__c = trips[0].Id)
+            };
       insert flights;
     }
     
@@ -67,7 +66,8 @@ public class TestDataFactory {
             LastName__c,
             Age__c,
             Email__c,
-            IsDuplicate__c
+            IsDuplicate__c,
+            Active__c
             FROM Tourist__c
         ];
         return tourists;
@@ -89,7 +89,8 @@ public class TestDataFactory {
             SELECT Id,
             Name,
             Tourist__c,
-            Trip__c
+            Trip__c,
+            Status__c
             FROM Flight__c
         ];
         return flights;
@@ -130,5 +131,40 @@ public class TestDataFactory {
                 Date__c = Date.valueOf('2021-06-01'))
             };
         insert weathers;
+    }
+    
+    public static List<Flight__c> createFlight(String birthdateTorist, Integer minAgeOnTrip,
+                                               String startDate, String flightStatus) {
+        Tourist__c tourist = new Tourist__c(
+            Name = 'Olga',
+            LastName__c = 'Taras', 
+            Birthdate__c = Date.valueOf(birthdateTorist)
+        );
+        insert tourist;
+        Trip__c trip = new Trip__c(
+            Minimum_Age__c = minAgeOnTrip,
+            Start_Date__c = Date.valueOf(startDate)
+        );
+        insert trip;
+        List<Flight__c> flight = new List<Flight__c> {
+            new Flight__c(
+                Status__c = flightStatus,
+                Tourist__c = tourist.Id,
+                Trip__c = trip.Id)
+            };
+      return flight;
+    }
+    
+    public static List<Tourist__c> getTouristsIsDuplicate() {
+        List<Tourist__c> tourists = [
+            SELECT Name,
+            LastName__c,
+            Age__c,
+            Email__c,
+            IsDuplicate__c
+            FROM Tourist__c
+            WHERE IsDuplicate__c = true
+        ];
+        return tourists;
     }
 }

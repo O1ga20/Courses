@@ -8,7 +8,7 @@ public class FlightManagerTest {
         List<Flight__c> notActiveTourists = FlightManager.getByActiveTourists(null);    
         System.assertEquals(new List<Flight__c> (), notActiveTourists);
         notActiveTourists = FlightManager.getByActiveTourists(tourists);    
-        System.assertEquals(2, notActiveTourists.size());
+        System.assertEquals(1, notActiveTourists.size());
     }
     
     @IsTest

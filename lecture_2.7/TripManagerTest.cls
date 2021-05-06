@@ -18,6 +18,6 @@ public class TripManagerTest {
         List<Trip__c> trips = TripManager.getIdMinAgeDate(null);    
         System.assertEquals(new List<Trip__c> (), trips);
         trips = TripManager.getIdMinAgeDate(flights);    
-        System.assertEquals(2, trips.size());
+        System.assertEquals(1, trips.size());
     }
 }
