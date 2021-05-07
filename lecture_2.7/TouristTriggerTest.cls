@@ -13,7 +13,6 @@ public class TouristTriggerTest {
         Database.SaveResult[] result = Database.insert(tourist, false);
         Test.stopTest();
         List<Tourist__c> tourisDuplicates = TestDataFactory.getTouristsIsDuplicate();
-        System.debug(tourisDuplicates);
         System.assertEquals(1, tourisDuplicates.size());
     }
     

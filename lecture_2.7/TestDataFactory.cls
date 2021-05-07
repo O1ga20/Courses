@@ -167,4 +167,21 @@ public class TestDataFactory {
         ];
         return tourists;
     }
+    
+    public static void createFlightsForBatch() {
+        createTrips();
+        List<Tourist__c> tourists = createTourist();
+        List<Trip__c> trips = getTrips();
+        List<Flight__c> flights = new List<Flight__c> {
+            new Flight__c(
+                Status__c = 'Declined',
+                Tourist__c = tourists[0].Id,
+                Trip__c = trips[0].Id),
+            new Flight__c(
+                Status__c = 'Declined',
+                Tourist__c = tourists[0].Id,
+                Trip__c = trips[1].Id)
+            };
+      insert flights;
+    }
 }
