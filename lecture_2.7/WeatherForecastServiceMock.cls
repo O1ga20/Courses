@@ -1,0 +1,11 @@
+@IsTest
+global class WeatherForecastServiceMock implements HttpCalloutMock {
+    
+    global HTTPResponse respond(HTTPRequest request) {
+        HttpResponse response = new HttpResponse();
+        response.setHeader('Content-Type', 'application/json');
+        response.setBody('{"data":[{"valid_date":"2021-05-11", "temp":11.2}] }');
+        response.setStatusCode(200);
+        return response; 
+    }
+}
