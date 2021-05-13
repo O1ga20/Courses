@@ -2,7 +2,7 @@
 public class AsyncJobManagerTest {
     
     @IsTest
-    static void testGetJobs() {
+    private static void getJobs_Test() {
         List<AsyncApexJob> jobs = AsyncJobManager.getJobs(null);
         System.assertEquals(0, jobs.size());
     }

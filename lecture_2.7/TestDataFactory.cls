@@ -118,7 +118,9 @@ public class TestDataFactory {
     
     public static List<Space_Point__c> getSpacePoint() {
         List<Space_Point__c> points = [
-            SELECT Id
+            SELECT Id,
+            Latitude__c,
+            Longitude__c
             FROM Space_Point__c
         ];
         return points;
@@ -182,6 +184,6 @@ public class TestDataFactory {
                 Tourist__c = tourists[0].Id,
                 Trip__c = trips[1].Id)
             };
-      insert flights;
+        insert flights;
     }
 }

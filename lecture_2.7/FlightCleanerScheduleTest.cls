@@ -1,15 +1,23 @@
 @IsTest
 public class FlightCleanerScheduleTest {
     
+    @TestVisible
+    private static final String sch = '0 0 0 * * ?';
+    private static final String SCHEDULE_JOB_NAME = 'Cleaning flights';
+    private static final String JOB_TYPE_SCHEDULE = 'ScheduledApex';
+    
     @IsTest
-    static void testSchedule() {
+    private static void cleanerSchedule_Test() {
         TestDataFactory.createFlights();
-        String sch = '0 0 0 * * ?';
-        String jobRunningTime = '2021-05-08 00:00:00';
+        
         Test.startTest();
-        FlightCleanerSchedule cleaner = new FlightCleanerSchedule();
-        String jobID = System.schedule('Cleaning flights', sch, cleaner);
+        	FlightCleanerSchedule cleaner = new FlightCleanerSchedule();
+        	System.schedule(SCHEDULE_JOB_NAME, sch, cleaner);
         Test.stopTest();
-        system.assertEquals(1, [SELECT count() FROM CronTrigger], 'A job should be scheduled');
+        
+        List<AsyncApexJob> jobs = TestDataFactory.getJobs();
+        
+        System.assertEquals(1, [SELECT count() FROM CronTrigger], 'A job should be scheduled');
+        System.assertEquals(JOB_TYPE_SCHEDULE, jobs[0].JobType);
     }
 }

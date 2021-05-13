@@ -2,6 +2,8 @@
 public class WeatherForecastServiceTest {
     
     @TestVisible
+    private static final Date day = Date.valueOf(String.valueOf('2021-05-11'));
+    @TestVisible
     private static List<Space_Point__c> points;
     static {
         TestDataFactory.createSpacePoint();
@@ -9,8 +11,7 @@ public class WeatherForecastServiceTest {
     }
     
     @IsTest
-    static void getForecastsSsuccess_Test() {
-        Date day = Date.valueOf(String.valueOf('2021-05-11'));
+    private static void getForecastsSsuccess_Test() {
         Test.setMock(HttpCalloutMock.class, new WeatherForecastServiceMock());
         
         Test.startTest();
@@ -24,7 +25,7 @@ public class WeatherForecastServiceTest {
     }
     
     @IsTest
-    static void getForecastsError_Test() {
+    private static void getForecastsError_Test() {
         Test.setMock(HttpCalloutMock.class, new WeatherForecastServiceMockError());
         
         Test.startTest();

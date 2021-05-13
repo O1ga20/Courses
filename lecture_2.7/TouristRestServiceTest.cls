@@ -2,18 +2,28 @@
 public class TouristRestServiceTest {
     
     @TestVisible
+    private static final String REQUEST_URL = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
+    private static final String REQUEST_PARAMS_FUZZYNAME = 'fuzzyname';
+    private static final String REQUEST_PARAMS_AGE = 'age';
+    private static final String AGE = '5';
+    private static final String TOURIST_NAME = 'Olga';
+    private static final String TOURIST_LAST_NAME = 'Taras';
+    private static final String TOURIST_BIRTHDAY = '2020-03-03';
+    private static final String TOURIST_EMAIL = 'romandlickaya@gmail.com';
+    private static final String TOURIST_EMAIL_NOT_DUPLICATE = 'roman@gmail.com';
+    private static final String ASSERT_COMMENT = 'Insert failed.';
     private static List<Tourist__c> tourist;
     static {
         tourist = TestDataFactory.createTourist();
     }
     
     @IsTest
-    static void testGetTouristsSsuccess_Test() {
+    private static void getTouristsSsuccess_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
-        req.params.put('fuzzyname', tourist.get(0).Name);
-        req.params.put('age', '5');
+        req.requestURI = REQUEST_URL;
+        req.params.put(REQUEST_PARAMS_FUZZYNAME, tourist.get(0).Name);
+        req.params.put(REQUEST_PARAMS_AGE, AGE);
         req.httpMethod = Constants.METHOD_HTTP_GET; 
         RestContext.request = req;
         RestContext.response = res;
@@ -27,11 +37,11 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    static void getTouristSsuccessfulWithoutAge_Test() {
+    private static void getTouristSsuccessfulWithoutAge_Test() {
         RestRequest req = new RestRequest();
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
-        req.params.put('fuzzyname', tourist.get(0).Name); 
+        req.requestURI = REQUEST_URL;
+        req.params.put(REQUEST_PARAMS_FUZZYNAME, tourist.get(0).Name); 
         req.httpMethod = Constants.METHOD_HTTP_GET;  
         RestContext.request = req;
         RestContext.response = res;
@@ -45,15 +55,14 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    static void getTouristsErrorNotNameTourist_Test() {
+    private static void getTouristsErrorNotNameTourist_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
-        req.params.put('age', '5');
+        req.requestURI = REQUEST_URL;
+        req.params.put(REQUEST_PARAMS_AGE, AGE);
         req.httpMethod = Constants.METHOD_HTTP_GET; 
         RestContext.request = req;
         RestContext.response = res;
-        
         
         Test.startTest();
         	TouristRestService.getTourists();
@@ -64,12 +73,13 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    static void getTouristsErrorAgeNotNumbers_Test() {
+    private static void getTouristsErrorAgeNotNumbers_Test() {
+        String ageNotNumber = 'ghjliu';
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
-        req.params.put('fuzzyname', tourist.get(0).Name);
-        req.params.put('age', 'ghjliu');
+        req.requestURI = REQUEST_URL;
+        req.params.put(REQUEST_PARAMS_FUZZYNAME, tourist.get(0).Name);
+        req.params.put(REQUEST_PARAMS_AGE, ageNotNumber);
         req.httpMethod = Constants.METHOD_HTTP_GET; 
         RestContext.request = req;
         RestContext.response = res;
@@ -83,61 +93,63 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    static void createTouristDuplicate_Test() {
+    private static void createTouristDuplicate_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
+        req.requestURI = REQUEST_URL;
         req.httpMethod = Constants.METHOD_HTTP_POST;  
         RestContext.request = req;
         RestContext.response = res;
         
         Test.startTest();
-        	TouristRestService.createTourist('Olga', 'Taras', '2020-03-03', 'romandlickaya@gmail.com');
+        	TouristRestService.createTourist(TOURIST_NAME, TOURIST_LAST_NAME, TOURIST_BIRTHDAY, TOURIST_EMAIL);
         Test.stopTest(); 
         
         List<Tourist__c> tourists = TestDataFactory.getTourists();
         
-        System.assertEquals(1, tourists.size(), 'Insert failed.');
+        System.assertEquals(1, tourists.size(), ASSERT_COMMENT);
         System.assertEquals(409, RestContext.response.statusCode);
         System.assertEquals(Constants.DUPLICATE, RestContext.response.responseBody.toString());
     }
     
-     @IsTest
-    static void createTouristTypeException_Test() {
+    @IsTest
+    private static void createTouristTypeException_Test() {
+        String birthdayError = '2020/03/03';
+        String textError = 'Invalid date: 2020/03/03';
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
+        req.requestURI = REQUEST_URL;
         req.httpMethod = Constants.METHOD_HTTP_POST;  
         RestContext.request = req;
         RestContext.response = res;
         
         Test.startTest();
-        	TouristRestService.createTourist('Olga', 'Taras', '2020/03/03', 'romandlickaya@gmail.com');
+        	TouristRestService.createTourist(TOURIST_NAME, TOURIST_LAST_NAME, birthdayError, TOURIST_EMAIL);
         Test.stopTest(); 
         
         List<Tourist__c> tourists = TestDataFactory.getTourists();
         
-        System.assertEquals(1, tourists.size(), 'Insert failed.');
+        System.assertEquals(1, tourists.size(), ASSERT_COMMENT);
         System.assertEquals(409, RestContext.response.statusCode);
-        System.assertEquals('Invalid date: 2020/03/03', RestContext.response.responseBody.toString());
+        System.assertEquals(textError, RestContext.response.responseBody.toString());
     }
     
     @IsTest
-    static void createTouristSsuccess_Test() {
+    private static void createTouristSsuccess_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
-        req.requestURI = URL.getSalesforceBaseUrl().toExternalForm() + '/services/apexrest/Tourist';
+        req.requestURI = REQUEST_URL;
         req.httpMethod = Constants.METHOD_HTTP_POST;  
         RestContext.request = req;
         RestContext.response = res;
         
         Test.startTest();
-        	TouristRestService.createTourist('Olga', 'Taras', '2020-03-03', 'roman@gmail.com');
+        	TouristRestService.createTourist(TOURIST_NAME, TOURIST_LAST_NAME, TOURIST_BIRTHDAY, TOURIST_EMAIL_NOT_DUPLICATE);
         Test.stopTest(); 
         
         List<Tourist__c> tourists = TestDataFactory.getTourists();
         
         System.assertEquals(2, tourists.size());
-        System.assertEquals('roman@gmail.com', tourists[1].Email__c);
+        System.assertEquals(TOURIST_EMAIL_NOT_DUPLICATE, tourists[1].Email__c);
     }
 }
