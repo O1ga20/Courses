@@ -42,9 +42,10 @@ public class TouristManager {
     public static List<Tourist__c> getRegisteredOnTheTrip() {
         List<Tourist__c> registered = [
             SELECT Name,
-            Age__c, 
-            (SELECT Trip__r.Start_Date__c, Trip__r.Name FROM Flights__r)
+            Age__c,
+            (SELECT Trip__r.Start_Date__c, Trip__r.Name FROM Flights__r WHERE Trip__c != null)
             FROM Tourist__c
+            WHERE Id IN (SELECT Tourist__c FROM Flight__c)
         ];
         return registered;
     }
@@ -54,7 +55,7 @@ public class TouristManager {
             SELECT Name, 
             Age__c
             FROM Tourist__c
-            WHERE Id NOT IN(SELECT Tourist__c FROM Flight__c)
+            WHERE Id NOT IN (SELECT Tourist__c FROM Flight__c)
         ];
         return notRegistered;
     }

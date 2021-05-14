@@ -18,7 +18,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void getTouristsSsuccess_Test() {
+    private static void getTourists_Ssuccess_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
         req.requestURI = REQUEST_URL;
@@ -37,7 +37,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void getTouristSsuccessfulWithoutAge_Test() {
+    private static void getTourist_SsuccessfulWithoutAge_Test() {
         RestRequest req = new RestRequest();
         RestResponse res = new RestResponse();
         req.requestURI = REQUEST_URL;
@@ -55,7 +55,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void getTouristsErrorNotNameTourist_Test() {
+    private static void getTourists_ErrorNotNameTourist_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
         req.requestURI = REQUEST_URL;
@@ -73,7 +73,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void getTouristsErrorAgeNotNumbers_Test() {
+    private static void getTourists_ErrorAgeNotNumbers_Test() {
         String ageNotNumber = 'ghjliu';
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
@@ -93,7 +93,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void createTouristDuplicate_Test() {
+    private static void createTourist_Duplicate_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
         req.requestURI = REQUEST_URL;
@@ -113,7 +113,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void createTouristTypeException_Test() {
+    private static void createTourist_TypeException_Test() {
         String birthdayError = '2020/03/03';
         String textError = 'Invalid date: 2020/03/03';
         RestRequest req = new RestRequest(); 
@@ -135,7 +135,7 @@ public class TouristRestServiceTest {
     }
     
     @IsTest
-    private static void createTouristSsuccess_Test() {
+    private static void createTourist_Ssuccess_Test() {
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
         req.requestURI = REQUEST_URL;
