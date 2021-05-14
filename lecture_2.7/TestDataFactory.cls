@@ -46,7 +46,7 @@ public class TestDataFactory {
         insert trips;
     }
     
-    public static void createFlights() {
+    public static void createFlight() {
         createTrips();
         List<Tourist__c> tourists = createTourist();
         List<Trip__c> trips = getTrips();
@@ -135,12 +135,12 @@ public class TestDataFactory {
         insert weathers;
     }
     
-    public static List<Flight__c> createFlight(String birthdateTorist, Integer minAgeOnTrip,
+    public static List<Flight__c> createFlight(String birthdayTorist, Integer minAgeOnTrip,
                                                String startDate, String flightStatus) {
         Tourist__c tourist = new Tourist__c(
             Name = 'Olga',
             LastName__c = 'Taras', 
-            Birthdate__c = Date.valueOf(birthdateTorist)
+            Birthdate__c = Date.valueOf(birthdayTorist)
         );
         insert tourist;
         Trip__c trip = new Trip__c(
@@ -170,7 +170,7 @@ public class TestDataFactory {
         return tourists;
     }
     
-    public static void createFlightsForBatch() {
+    public static void createFlights() {
         createTrips();
         List<Tourist__c> tourists = createTourist();
         List<Trip__c> trips = getTrips();
@@ -185,5 +185,25 @@ public class TestDataFactory {
                 Trip__c = trips[1].Id)
             };
         insert flights;
+    }
+    
+    public static List<AsyncApexJob> getJobs() {
+        List<AsyncApexJob> jobs = [
+            SELECT Id, 
+            ApexClass.Name,
+            JobType
+            FROM AsyncApexJob
+        ];
+        return jobs;        
+    }
+    
+    public static List<Weather_Daily_Forecast__c> getWeatherForecast() {
+        List<Weather_Daily_Forecast__c> weathers = [
+            SELECT Id,
+            Space_Point__c,
+            Date__c
+            FROM Weather_Daily_Forecast__c
+        ];
+        return weathers;
     }
 }
