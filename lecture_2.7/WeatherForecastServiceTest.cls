@@ -2,7 +2,7 @@
 public class WeatherForecastServiceTest {
     
     @TestVisible
-    private static final Date day = Date.valueOf(String.valueOf('2021-05-11'));
+    private static final Date day = Date.valueOf(String.valueOf('2021-06-01'));
     @TestVisible
     private static List<Space_Point__c> points;
     static {
@@ -11,7 +11,7 @@ public class WeatherForecastServiceTest {
     }
     
     @IsTest
-    private static void getForecastsSsuccess_Test() {
+    private static void getForecasts_Ssuccess_Test() {
         Test.setMock(HttpCalloutMock.class, new WeatherForecastServiceMock());
         
         Test.startTest();
@@ -25,7 +25,7 @@ public class WeatherForecastServiceTest {
     }
     
     @IsTest
-    private static void getForecastsError_Test() {
+    private static void getForecasts_Error_Test() {
         Test.setMock(HttpCalloutMock.class, new WeatherForecastServiceMockError());
         
         Test.startTest();
