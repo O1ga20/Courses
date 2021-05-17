@@ -39,7 +39,6 @@ public class WeatherForecastUpdaterTest {
     
     @IsTest
     private static void updateForecasts_Error_Test() {
-        TestDataFactory.createWeatherDailyForecast(points);
         Test.setMock(HttpCalloutMock.class, new WeatherForecastServiceMockError());
         
         Test.startTest();
@@ -53,5 +52,7 @@ public class WeatherForecastUpdaterTest {
         List<Weather_Daily_Forecast__c> weathersAfterUpdate = TestDataFactory.getWeatherForecast();
         
         System.assertEquals(true, WeatherForecastServiceMockError.returnValue);
+        System.assertEquals(0, weathersAfterUpdate.size());
+
     }
 }
