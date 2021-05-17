@@ -8,12 +8,12 @@ public class TestDataFactory {
                 LastName__c = 'Taras', 
                 Birthdate__c = Date.valueOf('2016-01-01'),
                 Email__c = 'romandlickaya@gmail.com'),
-             new Tourist__c(
+            new Tourist__c(
                 Name = 'Ira', 
                 LastName__c = 'Taras', 
                 Birthdate__c = Date.valueOf('2000-08-22'),
                 Email__c = 'ckaya@gmail.com'),
-             new Tourist__c(
+            new Tourist__c(
                 Name = 'Vova', 
                 LastName__c = 'Ivanov', 
                 Birthdate__c = Date.valueOf('2016-03-04'))
@@ -205,5 +205,20 @@ public class TestDataFactory {
             FROM Weather_Daily_Forecast__c
         ];
         return weathers;
+    }
+    
+    public static Set<Id> getJobsId(String jobId) {
+        Set<Id> jobIds = new Set<Id>();
+        List<AsyncApexJob> jobs = [
+            SELECT Id, 
+            ApexClass.Name,
+            JobType
+            FROM AsyncApexJob
+            WHERE Id = :jobId
+        ];
+        for (AsyncApexJob job : jobs) {
+            jobIds.add(job.Id);
+        }
+        return jobIds;        
     }
 }
