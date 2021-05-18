@@ -221,4 +221,13 @@ public class TestDataFactory {
         }
         return jobIds;        
     }
+    
+    public static List<Error_Log__c> getErrorLog() {
+        List<Error_Log__c> errs = [
+            SELECT Id,
+            JobId__c 
+            FROM Error_Log__c
+        ];
+        return errs;
+    }   
 }
