@@ -1,31 +1,45 @@
-<aura:component controller="DataForRegisteOnTheTripController" implements="flexipage:availableForRecordHome,force:hasRecordId" access = "global">
+<aura:component controller="DataRegisteOnTripController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access = "global">
     
     <aura:attribute name="recordId" type="Id"/>
-    <aura:attribute name="tourists" type="Tourist__c[]"/>
-    <aura:attribute name="rows" type="Map[]"/>
-    <aura:attribute name="columns" type="Map[]"/>
+    <aura:attribute name="rows" type="Object"/>
+    <aura:attribute name="columns" type="Object"/>
     <aura:attribute name="numberSelectedRows" type="Integer" access="public"/>
-    <aura:attribute name="checkingSeats" type="Boolean" access="public"/>
-    <aura:attribute name="trip" type="List"/>
-    <aura:attribute name="flights" type="Flight__c[]"/>
+    <aura:attribute name="checkSeatsWithSelected" type="Boolean" access="public"/>\
     <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
-    <aura:attribute name="selectedTourists" type="Map" default="{}"/>
+    <aura:attribute name="selectedTourists" type="List"/>
+    <aura:attribute name="touristsId" type="List"/>
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
+    <aura:attribute name="buttonVisible" type="Boolean" default="true"/>
+    <aura:attribute name="validTrip" type="Boolean" access="public"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <lightning:navigation aura:id="navigation"/>
+    
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner variant="brand" size="large"/>
+    </aura:if>
     
     <lightning:card title="Suitable tourists" iconName="custom:custom11">
         <lightning:datatable aura:id="linesTable"
                              data="{!v.rows}"
                              columns="{!v.columns}"
                              keyField="Id"
-                             onrowaction="{!c.onRowAction}"/>
-        
+                             enableInfiniteLoading="true"
+                             loadMoreOffset="5"
+                             />
         <div class="slds-m-around_xx-large">
-            <lightning:button variant="brand"
-                              label="Add to Trip"
-                              title="Add to Trip"
-                              onclick="{!c.handleClick}" />
+            <aura:if isTrue="{!v.buttonVisible}">
+                <div class="slds-clearfix">
+                    <div class="slds-float_right">
+                        <lightning:button class="slds-m-left_x-small"
+                                          variant="brand"
+                                          label="Add to Trip"
+                                          title="Add to Trip"
+                                          onclick="{!c.clickAdd}" />
+                    </div>
+                </div>
+            </aura:if>
+            
             <aura:if isTrue="{!v.isModalOpen}">
                 <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
                     <div class="slds-modal__container">
@@ -48,13 +62,12 @@
                             <lightning:button variant="brand"
                                               label="Yes"
                                               title="Yes"
-                                              onclick="{!c.addOnTrip}"/>
+                                              onclick="{!c.registration}"/>
                         </footer>
                     </div>
                 </section>
                 <div class="slds-backdrop slds-backdrop_open"></div>
             </aura:if>
         </div>
-        
     </lightning:card>
 </aura:component>

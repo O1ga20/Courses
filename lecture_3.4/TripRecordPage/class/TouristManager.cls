@@ -158,8 +158,8 @@ public class TouristManager {
         return notRegistered;
     }
     
-    public static List<Tourist__c> getSuitableForATrip(List<Trip__c> trip) {
-        if (trip == null || trip.isEmpty()) {
+    public static List<Tourist__c> getSuitableForATrip(Id tripId, Trip__c trip) {
+        if (tripId == null || trip == null) {
             return new List<Tourist__c> ();
         }
         List<Tourist__c>  tourists = [
@@ -171,13 +171,14 @@ public class TouristManager {
             Age__c
             FROM Tourist__c
             WHERE 	Active__c = true
-            AND Age__c >: trip[0].Minimum_Age__c
-            AND Id NOt IN (
-                SELECT Tourist__c 
+            AND Age__c >: trip.Minimum_Age__c
+            AND Id NOT IN (
+                SELECT Tourist__c
                 FROM Flight__c
-                WHERE  Trip__r.Start_Date__c >: trip[0].Start_Date__c
-                AND 
-                Trip__r.End_Date__c <: trip[0].End_Date__c)
+                WHERE  ((Trip__r.Start_Date__c >=: trip.Start_Date__c 
+                        AND Trip__r.Start_Date__c<=: trip.End_Date__c)
+                        OR (Trip__r.End_Date__c >=: trip.Start_Date__c 
+                        AND Trip__r.End_Date__c <=: trip.End_Date__c)))
         ];
         return tourists;
     }
@@ -192,7 +193,7 @@ public class TouristManager {
                 FROM Flight__c 
                 WHERE Trip__c = :tripId)
         ];
-        Integer counter = Integer.valueOf(tourists.size());
+        Integer counter = tourists.size();
         return counter;
     }
 }

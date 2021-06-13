@@ -32,11 +32,11 @@ public class TripManager {
         return trips;
     }
     
-    public static List<Trip__c> getTrip(Id tripId) {
+    public static  Trip__c getTrip(Id tripId) {
         if (tripId == null) {
-            return new List<Trip__c> ();
+            return new Trip__c ();
         }
-        List<Trip__c> trip = [
+         Trip__c trip = [
             SELECT Minimum_Age__c,
             Start_Date__c,
             End_Date__c,
