@@ -61,20 +61,6 @@
         $A.enqueueAction(action);
     },
     
-    getCity : function(component, event) {
-        let action = component.get("c.getNameCity");
-        action.setParams({
-            tripId : component.get("v.selectedTripId")
-        });
-        action.setCallback(this, function(response) {
-            let state = response.getState();
-            if (state === "SUCCESS") {
-                component.set("v.city", response.getReturnValue());
-            }
-        });
-        $A.enqueueAction(action); 
-    },
-    
     createFlight: function(component, event) {
         let action = component.get("c.createFlight");
         action.setParams({
@@ -95,6 +81,48 @@
             component.set("v.spinner", false);
         });
         $A.enqueueAction(action);
+    },
+    
+    getCity : function(component, event) {
+        let action = component.get("c.getNameCity");
+        action.setParams({
+            tripId : component.get("v.selectedTripId")
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+                component.set("v.spacePoint", response.getReturnValue());
+                component.set("v.city", response.getReturnValue().City__c);
+            } 
+            component.set("v.spinner", false);
+        });
+        $A.enqueueAction(action);
+    },
+    
+    getWeather : function(component, event) {
+        let action = component.get("c.fetchWeather");
+        action.setParams({
+            tripId : component.get("v.selectedTripId")
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+                component.set("v.temperature", response.getReturnValue().Average_Temperature__c);
+            } 
+            component.set("v.spinner", false);
+        });
+        $A.enqueueAction(action);
+    },
+    
+    zoomMap : function(component, event) {
+        component.set("v.mapMarkers", [
+            {
+                location: {
+                    City: component.get("v.city")
+                },
+            }
+        ]);
+        component.set("v.zoomLevel", 7);
     },
     
     showSpinner : function(component) {

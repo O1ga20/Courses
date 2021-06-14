@@ -26,15 +26,18 @@ public class TouristAssignmentController {
     }
     
     @AuraEnabled
-    public static String getSpacePoint(Id tripId) {
+    public static Space_Point__c getNameCity(Id tripId) {
         Trip__c trip = TripManager.getTrip(tripId);
         Id spacePoint = trip.Departure_Space_Point__c;
-        Space_Point__c point = [
-            SELECT Id,
-            City__c
-            FROM Space_Point__c
-            WHERE Id = :spacePoint
-        ];
-        return point.City__c;
+        Space_Point__c point = SpacePointManager.getPoint(spacePoint);
+        return point;
+    }
+    
+    @AuraEnabled
+    public static Weather_Daily_Forecast__c fetchWeather(Id tripId) {
+        Trip__c trip = TripManager.getTrip(tripId);
+        Id spacePoint = trip.Departure_Space_Point__c;
+        Weather_Daily_Forecast__c weather = WeatherForecastManager.getWeather(spacePoint);
+        return weather;
     }
 }

@@ -7,6 +7,7 @@
     },
     
     selectedTourist : function(component, event, helper) {
+        helper.getDataForMap(component, event);
         let tourist = event.getParam("value");
         component.set("v.touristId", tourist.Id);
         helper.сearchTrip(component, event);
@@ -21,9 +22,9 @@
         component.set("v.selectedTripId", selectedTrip.Id);
         helper.getFreeSeat(component, event);
         component.set("v.activeInformationTrip", true);
-        //helper.getCity(component, event);
-        helper.getDataForMap(component, event);
-        component.set("v.mapVisible", true);
+        helper.getCity(component, event);
+        helper.getWeather(component, event);
+        helper.zoomMap(component, event);
     },
     
     handleMarkerSelect: function (cmp, event, helper) {

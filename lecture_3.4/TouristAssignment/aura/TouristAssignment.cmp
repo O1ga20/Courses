@@ -7,12 +7,13 @@
     <aura:attribute name="activeInformationTrip" type="Boolean" default="false"/>
     <aura:attribute name="selectedTrip" type="Trip__c"/>
     <aura:attribute name="selectedTripId" type="Id"/>
-    <aura:attribute name="mapVisible" type="Boolean" default="false"/>
+    <aura:attribute name="mapVisible" type="Boolean" default="true"/>
     <aura:attribute name="freeSeats" type="Integer"/>
     <aura:attribute name="spinner" type="Boolean" default="false"/>
     <aura:attribute name="mapMarkers" type="Object"/>
     <aura:attribute name="markersTitle" type="String" />
     <aura:attribute name="selectedMarkerValue" type="String" default="Belarus"/>
+    <aura:attribute name="zoomLevel" type="Integer" />
     <aura:attribute name="spacePoint" type="sObject"/>
     <aura:attribute name="city" type="String"/>
     <aura:attribute name="temperature" type="Decimal"/>
@@ -26,7 +27,7 @@
     
     <lightning:layout>
         <lightning:layoutItem padding="around-small" size="6">
-            <lightning:card title="Tourists" iconName="custom:custom11">
+            <lightning:card title="Choose a tourist" iconName="custom:custom11">
                 <p class="slds-p-horizontal_small">
                     <div class="slds-card slds-box slds-theme_shade">
                         <c:CustomLookup objectAPIName="Tourist__c" 
@@ -46,6 +47,8 @@
                             <h2 class="slds-text-heading--medium slds-truncate">{!v.selectedTrip.Name}</h2>
                             <p>Start Date:  <ui:outputText value="{!v.selectedTrip.Start_Date__c}"/></p>
                             <p>Free seats:  <ui:outputText value="{!v.freeSeats}"/></p>
+                            <p>City:  <ui:outputText value="{!v.city}"/></p>
+                            <p>Temperature:  <ui:outputText value="{!v.temperature}"/></p>
                             <div class="slds-clearfix">
                                 <div class="slds-float_right">
                                     <lightning:button variant="brand"
@@ -61,35 +64,37 @@
         </aura:if>
     </lightning:layout>
     
-    <lightning:layout horizontalAlign="spread">
-        <aura:iteration items="{!v.trips}" var="trip" indexVar="idx">
-            <aura:if isTrue="{!v.activeCardsTrip}">
-                <lightning:layoutItem padding="around-small" size="3">
-                    <lightning:card variant="Narrow" title="Trip" iconName="custom:custom24">
-                        <p class="slds-p-horizontal_small">
-                            <div class="slds-card slds-box slds-theme_shade" data-record="{!idx}" onclick="{!c.getTripDetail}">
-                                <header class="slds-card__header slds-grid grid--flex-spread">
-                                    <h2 class="slds-text-heading--medium slds-truncate">{!trip.Name}</h2>
-                                </header>
-                            </div>
-                        </p>
-                    </lightning:card>
-                </lightning:layoutItem>
-            </aura:if>  
-        </aura:iteration>
-    </lightning:layout>
+    <div class="slds-clearfix">
+        <lightning:layout horizontalAlign="spread">
+            <aura:iteration items="{!v.trips}" var="trip" indexVar="idx">
+                <aura:if isTrue="{!v.activeCardsTrip}">
+                    <lightning:layoutItem padding="around-small" size="3">
+                        <lightning:card variant="Narrow" title="Available trip" iconName="custom:custom24">
+                            <p class="slds-p-horizontal_small">
+                                <div class="slds-card slds-box slds-theme_shade" data-record="{!idx}" onclick="{!c.getTripDetail}">
+                                    <header class="slds-card__header slds-grid grid--flex-spread">
+                                        <h2 class="slds-text-heading--medium slds-truncate">{!trip.Name}</h2>
+                                    </header>
+                                </div>
+                            </p>
+                        </lightning:card>
+                    </lightning:layoutItem>
+                </aura:if>  
+            </aura:iteration>
+        </lightning:layout>
+    </div>
     
     <aura:if isTrue="{!v.mapVisible}">  
         <lightning:layoutItem padding="around-small" size="12">
             <lightning:card title="Map" iconName="custom:custom11">
                 <div class="slds-card slds-box slds-theme_shade">
                     <h2 class="slds-text-heading--medium slds-truncate">Selected Marker Value is {!v.selectedMarkerValue}</h2>
-                    <p>City:  <ui:outputText value="{!v.city}"/></p>
-                    <p>Temperature:  <ui:outputText value="{!v.temperature}"/></p>
-                    <lightning:map mapMarkers="{! v.mapMarkers }"
-                                   markersTitle="{!v.markersTitle}"
+                    
+                    <lightning:map markersTitle="{!v.markersTitle}"
                                    selectedMarkerValue="{!v.selectedMarkerValue}"
-                                   onmarkerselect="{!c.handleMarkerSelect}" />
+                                   onmarkerselect="{!c.handleMarkerSelect}" 
+                                   mapMarkers="{!v.mapMarkers}"
+                                   zoomLevel="{!v.zoomLevel}"/>
                 </div>
             </lightning:card>
         </lightning:layoutItem>
