@@ -16,13 +16,8 @@ public class TouristAssignmentController {
     }
     
     @AuraEnabled
-    public static Flight__c createFlight(Id tripId, Id touristId) {
-        Flight__c newFlight = new Flight__c ();
-        newFlight.Tourist__c = touristId;
-        newFlight.Trip__c = tripId;
-        newFlight.Status__c = Constants.FLIGHT_STATUS_OFFER_REQUESTED;
-        insert newFlight;
-        return newFlight;
+    public static void createFlight(Id tripId, Id touristId) {
+       TripService.createFlight(tripId, touristId);
     }
     
     @AuraEnabled

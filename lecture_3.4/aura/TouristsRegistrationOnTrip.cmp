@@ -1,0 +1,82 @@
+<aura:component controller="TouristRegistrationController" access = "global"
+                implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="recordId" type="Id" access="public"/>
+    <aura:attribute name="rows" type="List" access="public"/>
+    <aura:attribute name="columns" type="List" access="public"/>
+    <aura:attribute name="numberSelectedRows" type="Integer" access="public"/>
+    <aura:attribute name="checkSeatsWithSelected" type="Boolean" access="public"/>
+    <aura:attribute name="isModalOpen" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="selectedTourists" type="List" access="public"/>
+    <aura:attribute name="touristIds" type="List" access="public"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="isValidTrip" type="Boolean" access="public"/>
+    <aura:attribute name="today" type="Date" access="public"/>
+    <aura:attribute name="enableInfiniteLoading" type="Boolean" default="true" access="public"/>
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0" access="public"/>
+    <aura:attribute name="loadMoreStatus" type="String" 
+                    default="Please scroll down to load more data" access="public"/>
+    <aura:attribute name="initialRows" type="Integer" default="5" access="public"/>
+    <aura:attribute name="currentCount" type="Integer" default="5" access="public"/>
+    <aura:attribute name="rowsToLoad" type="Integer" default="5" access="public"/>
+    <aura:attribute name="totalNumberOfRows" type="Integer" default="5" access="public"/>
+    <aura:attribute name="rowNumberOffset" type="Integer" default="0" access="public"/>
+    <aura:attribute name="isButtonDisabled" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="trip" type="Trip__c" access="public"/>
+    <aura:attribute name="recordLoadError" type="String" access="public"/>
+    <aura:attribute name="message" type="String" 
+                    default="{!$Label.c.QuestionBeforeRegisteringForTrip}" access="public"/>
+    <aura:attribute name="title" type="String" default="{!$Label.c.AreYouSure}" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="isButtonClose" event="c:EventButtonClose" action="{!c.closeModal}"/>
+    <aura:handler name="isButtonYes" event="c:EventButtonYes" action="{!c.registration}"/>
+    
+    <force:recordData aura:id="tripRecord"
+                      fields="Id,Start_Date__c,End_Date__c,Free_Seats__c"
+                      recordId="{!v.recordId}"
+                      targetFields ="{!v.trip}"
+                      recordUpdated="{!c.validTrip}"
+                      mode="VIEW"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" size="large"/>
+    </aura:if>
+    
+    <lightning:card title="Suitable tourists" iconName="custom:custom11">
+        <div style="height:200px">
+            <lightning:datatable aura:id="linesTable"
+                                 data="{!v.rows}"
+                                 columns="{!v.columns}"
+                                 keyField="Id"
+                                 onrowselection="{!c.handleSelectedRow}"
+                                 enableInfiniteLoading="{!v.enableInfiniteLoading}"
+                                 onloadmore="{!c.handleLoadMore}"/>
+            <div class="slds-float_left slds-p-around_small">
+                {!$Label.c.Total_Rows}&nbsp;{!v.totalNumberOfRows}
+                &nbsp;&nbsp;
+                {!$Label.c.Selected_Rows}&nbsp;{!v.selectedRowsCount}
+                <p>{!$Label.c.Free_Seats} {!v.trip.Free_Seats__c}</p>
+            </div>
+            <div class="slds-float_right slds-p-around_small">
+                {!v.loadMoreStatus}
+            </div>
+        </div>
+        
+        <div class="slds-m-around_xx-large">
+            <div class="slds-clearfix">
+                <div class="slds-float_right">
+                    <lightning:button class="slds-m-left_x-small"
+                                      variant="brand"
+                                      disabled ="{!v.isButtonDisabled}"
+                                      label="{!$Label.c.Add_to_Trip}"
+                                      title="{!$Label.c.Add_to_Trip}"
+                                      onclick="{!c.clickAdd}" />
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        <c:ConfirmationScreen title="{!v.title}" message = "{!v.message}"/>
+    </aura:if>
+</aura:component>

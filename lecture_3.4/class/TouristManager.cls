@@ -158,7 +158,7 @@ public class TouristManager {
         return notRegistered;
     }
     
-    public static List<Tourist__c> getSuitableForATrip(Id tripId, Trip__c trip) {
+    public static List<Tourist__c> getSuitableForATrip(Id tripId, Trip__c trip, Integer intLimit, Integer intOffset) {
         if (tripId == null || trip == null) {
             return new List<Tourist__c> ();
         }
@@ -179,8 +179,29 @@ public class TouristManager {
                         AND Trip__r.Start_Date__c<=: trip.End_Date__c)
                         OR (Trip__r.End_Date__c >=: trip.Start_Date__c 
                         AND Trip__r.End_Date__c <=: trip.End_Date__c)))
+            LIMIT :intLimit 
+            OFFSET :intOffset
         ];
         return tourists;
+    }
+     
+    public static Integer getTotalNumTourists(Id tripId, Trip__c trip) {
+        if (tripId == null) return null;
+        AggregateResult results = [
+            SELECT Count(Id) TotalTourist
+            From Tourist__c
+            WHERE 	Active__c = true
+            AND Age__c >: trip.Minimum_Age__c
+            AND Id NOT IN (
+                SELECT Tourist__c
+                FROM Flight__c
+                WHERE  ((Trip__r.Start_Date__c >=: trip.Start_Date__c 
+                        AND Trip__r.Start_Date__c<=: trip.End_Date__c)
+                        OR (Trip__r.End_Date__c >=: trip.Start_Date__c 
+                        AND Trip__r.End_Date__c <=: trip.End_Date__c)))
+        ];
+        Integer totalTourists =Integer.valueOf(results.get('TotalTourist')); 
+        return totalTourists;
     }
     
     public static Integer getNumRegisteredOnTheTrip(Id tripId) {
@@ -195,5 +216,20 @@ public class TouristManager {
         ];
         Integer counter = tourists.size();
         return counter;
+    }
+    
+    public static Tourist__c getTourist(Id touristId) {
+        if (touristId == null) {
+            return new Tourist__c ();
+        }
+        Tourist__c tourist = [
+            SELECT Id, 
+            Name, 
+            LastName__c, 
+            Age__c 
+            FROM Tourist__c 
+            WHERE Id = :touristId
+        ];
+        return tourist;
     }
 }

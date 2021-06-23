@@ -78,7 +78,7 @@
                 });
                 toastEvent.fire();
             } 
-            component.set("v.spinner", false);
+            this.hideSpinner(component);
         });
         $A.enqueueAction(action);
     },
@@ -94,7 +94,7 @@
                 component.set("v.spacePoint", response.getReturnValue());
                 component.set("v.city", response.getReturnValue().City__c);
             } 
-            component.set("v.spinner", false);
+            this.hideSpinner(component);
         });
         $A.enqueueAction(action);
     },
@@ -109,7 +109,7 @@
             if (state === "SUCCESS") {
                 component.set("v.temperature", response.getReturnValue().Average_Temperature__c);
             } 
-            component.set("v.spinner", false);
+            this.hideSpinner(component);
         });
         $A.enqueueAction(action);
     },
@@ -126,10 +126,10 @@
     },
     
     showSpinner : function(component) {
-        component.set("v.spinner", true);
+        component.set("v.showSpinner", true);
     },
     
     hideSpinner : function(component) {
-        component.set("v.spinner", false);
+        component.set("v.showSpinner", false);
     } 
 })
