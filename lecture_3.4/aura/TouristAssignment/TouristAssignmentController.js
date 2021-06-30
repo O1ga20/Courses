@@ -5,31 +5,41 @@
         cmp.find("lookupId").fireChanging();
     },
     
+    openModal : function(component) {
+        component.set("v.isModalOpen", true);
+    },
+    
     submit : function(component, event, helper) {
+        component.set("v.isModalOpen", false);
         helper.showSpinner(component);
         helper.createFlight(component, event);
     },
     
     selectedTourist : function(component, event, helper) {
+        helper.showSpinner(component);
         helper.getDataForMap(component, event);
         helper.сearchTrip(component, event);
-        component.set("v.activeCardsTrip", true);
+        component.set("v.activeCardTrips", true);
+        helper.hideSpinner(component);
     },
     
     getTripDetail : function(component, event, helper) {
-        let selectedItem = event.currentTarget; 
-        let index = selectedItem.dataset.record; 
-        let selectedTrip = component.get("v.trips")[index];
-        component.set("v.selectedTrip", selectedTrip);
-        component.set("v.selectedTripId", selectedTrip.Id);
-        helper.getFreeSeat(component, event);
-        component.set("v.activeInformationTrip", true);
+        let selectedTripId = event.getParam("selectedTripId");
+        component.set("v.selectedTripId", selectedTripId);
+        helper.getTrip(component, event);
         helper.getCity(component, event);
         helper.getWeather(component, event);
         helper.zoomMap(component, event);
+        component.set("v.activeInformationTrip", true);
+        helper.hideSpinner(component);
     },
     
-    handleMarkerSelect: function (cmp, event, helper) {
+    handleMarkerSelect: function (event) {
         let marker = event.getParam("selectedMarkerValue");
-    }
+    },
+    
+    closeModal : function(component, event) {
+        let isModalOpen = event.getSource();
+        component.set("v.isModalOpen", false);
+    }    
 })

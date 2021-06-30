@@ -2,12 +2,14 @@
                 implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
     <aura:attribute name="selectedLookUpRecord" type="Id" access="public"/>
     <aura:attribute name="touristId" type="Id" access="public"/>
-    <aura:attribute name="activeCardsTrip" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="activeCardTrips" type="Boolean" default="false" access="public"/>
     <aura:attribute name="trips" type="List" access="public"/>
     <aura:attribute name="activeInformationTrip" type="Boolean" default="false" access="public"/>
     <aura:attribute name="selectedTrip" type="Trip__c" access="public"/>
+    <aura:attribute name="trip" type="Trip__c" access="public"/>
     <aura:attribute name="selectedTripId" type="Id" access="public"/>
     <aura:attribute name="freeSeats" type="Integer" access="public"/>
+    <aura:attribute name="recordId" type="Id"/>
     <aura:attribute name="showSpinner" type="Boolean" default="false" access="public"/>
     <aura:attribute name="mapMarkers" type="List" access="public"/>
     <aura:attribute name="markersTitle" type="String" access="public"/>
@@ -17,11 +19,21 @@
     <aura:attribute name="city" type="String" access="public"/>
     <aura:attribute name="temperature" type="Decimal" access="public"/>
     <aura:attribute name="weather" type="Weather_Daily_Forecast__c" access="public"/>
-    
+    <aura:attribute name="message" type="String" 
+                    default="{!$Label.c.QuestionBeforeRegisteringForTrip}" access="public"/>
+    <aura:attribute name="title" type="String" default="{!$Label.c.AreYouSure}" />
+    <aura:attribute name="isModalOpen" type="Boolean" default="false" access="public"/>
     <aura:handler name="change" value="{!v.touristId}" action="{!c.selectedTourist}"/>
+    <aura:handler name="isButtonClose" event="c:EventButtonClose" action="{!c.closeModal}"/>
+    <aura:handler name="isButtonYes" event="c:EventButtonYes" action="{!c.submit}"/>
+    <aura:handler name="selectedTripId" event="c:SelectedTripEvt" action="{!c.getTripDetail}"/>
     
     <aura:if isTrue="{!v.showSpinner}">
         <lightning:spinner variant="brand" size="large"/>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        <c:ConfirmationScreen title="{!v.title}" message = "{!v.message}"/>
     </aura:if>
     
     <lightning:layout>
@@ -37,19 +49,8 @@
                         </div>
                     </p>
                     
-                    <aura:if isTrue="{!v.activeCardsTrip}">
-                        <lightning:layoutItem flexibility="auto" padding="around-small" size="3">
-                        <aura:iteration items="{!v.trips}" var="trip" indexVar="idx">
-                            <div class="header-column slds-theme_shade" data-record="{!idx}" onclick="{!c.getTripDetail}">
-                                <header class="slds-card__header slds-grid grid--flex-spread">
-                                    <div class="header-column slds-col">
-                                        <img src="{!$Resource.PicturesForTrips+ '/' + trip.Name + '.png'}" title="{!trip.Name}"/>
-                                        <h1 class="slds-text-heading--medium slds-truncate">{!trip.Name}</h1>
-                                    </div>
-                                </header>
-                            </div>
-                        </aura:iteration>
-                        </lightning:layoutItem>
+                    <aura:if isTrue="{!v.activeCardTrips}"> 
+                        <c:CardTrips trips="{!v.trips}"/>
                     </aura:if>  
                 </lightning:card>
             </div>
@@ -61,17 +62,17 @@
                     <lightning:card variant="Narrow" title="Trip Information" iconName="custom:custom15">
                         <p class="slds-p-horizontal_small">
                             <div class="slds-card slds-box slds-theme_shade">
-                                <h2 class="slds-text-heading--medium slds-truncate">{!v.selectedTrip.Name}</h2>
-                                <p>{!$Label.c.TripStartDate}&nbsp;<ui:outputText value="{!v.selectedTrip.Start_Date__c}"/></p>
-                                <p>{!$Label.c.TripFreeSeats}&nbsp;<ui:outputText value="{!v.freeSeats}"/></p>
-                                <p>{!$Label.c.TripCity}&nbsp;<ui:outputText value="{!v.city}"/></p>
+                                <h2 class="slds-text-heading--medium slds-truncate">{!v.trip.Name}</h2>
+                                <p>{!$Label.c.TripStartDate}&nbsp;<ui:outputText value="{!v.trip.Start_Date__c}"/></p>
+                                <p>{!$Label.c.TripFreeSeats}&nbsp;<ui:outputText value="{!v.trip.Free_Seats__c}"/></p>
+                                <p>{!$Label.c.TripCity}&nbsp;<ui:outputText value="{!v.trip.Departure_Space_Point__r.City__c}"/></p>
                                 <p>{!$Label.c.TripTemperatureInCity}&nbsp;<ui:outputText value="{!v.temperature}"/></p>
                                 <div class="slds-clearfix">
                                     <div class="slds-float_right">
                                         <lightning:button variant="brand"
                                                           label="Submit"
                                                           title="Submit"
-                                                          onclick="{!c.submit}"/>  
+                                                          onclick="{!c.openModal}"/>  
                                     </div>
                                 </div>
                             </div>

@@ -47,18 +47,35 @@
         $A.enqueueAction(action); 
     },
     
-    getFreeSeat : function(component, event) {
-        let action = component.get("c.getFreeSeatsOnTrip");
+    getTrip : function(component, event) {
+        let action = component.get("c.getTrip");
         action.setParams({
             tripId : component.get("v.selectedTripId")
         });
         action.setCallback(this, function(response) {
             let state = response.getState();
             if (state === "SUCCESS") {
-                component.set("v.freeSeats", response.getReturnValue());
+                component.set("v.trip", response.getReturnValue());
             }
         });
         $A.enqueueAction(action);
+    },
+    
+    getCity : function(component, event) {
+        let action = component.get("c.getNameCity");
+        action.setParams({
+            tripId : component.get("v.selectedTripId")
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+                component.set("v.spacePoint", response.getReturnValue());
+                component.set("v.city", response.getReturnValue().City__c);
+            } 
+            this.hideSpinner(component);
+        });
+        $A.enqueueAction(action);
+        
     },
     
     createFlight: function(component, event) {
@@ -83,26 +100,10 @@
         $A.enqueueAction(action);
     },
     
-    getCity : function(component, event) {
-        let action = component.get("c.getNameCity");
-        action.setParams({
-            tripId : component.get("v.selectedTripId")
-        });
-        action.setCallback(this, function(response) {
-            let state = response.getState();
-            if (state === "SUCCESS") {
-                component.set("v.spacePoint", response.getReturnValue());
-                component.set("v.city", response.getReturnValue().City__c);
-            } 
-            this.hideSpinner(component);
-        });
-        $A.enqueueAction(action);
-    },
-    
     getWeather : function(component, event) {
         let action = component.get("c.fetchWeather");
         action.setParams({
-            tripId : component.get("v.selectedTripId")
+            spacePoint : component.get("v.spacePoint").Id
         });
         action.setCallback(this, function(response) {
             let state = response.getState();

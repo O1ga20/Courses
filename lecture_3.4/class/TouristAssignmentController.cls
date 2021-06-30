@@ -8,11 +8,9 @@ public class TouristAssignmentController {
     } 
     
     @AuraEnabled 
-    public static Integer getFreeSeatsOnTrip(Id tripId) {
-        Integer counter = TouristManager.getNumRegisteredOnTheTrip(tripId);
+    public static Trip__c getTrip(Id tripId) {
         Trip__c trip = TripManager.getTrip(tripId);
-        Integer numVacantSeats = Integer.valueOf(trip.Seats__c) - counter;
-        return numVacantSeats;
+        return trip;
     }
     
     @AuraEnabled
@@ -29,9 +27,7 @@ public class TouristAssignmentController {
     }
     
     @AuraEnabled
-    public static Weather_Daily_Forecast__c fetchWeather(Id tripId) {
-        Trip__c trip = TripManager.getTrip(tripId);
-        Id spacePoint = trip.Departure_Space_Point__c;
+    public static Weather_Daily_Forecast__c fetchWeather(Id spacePoint) {
         Weather_Daily_Forecast__c weather = WeatherForecastManager.getWeather(spacePoint);
         return weather;
     }
