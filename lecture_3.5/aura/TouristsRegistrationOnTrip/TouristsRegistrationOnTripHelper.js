@@ -103,6 +103,7 @@
         if (numberSelectedRows != 0) {
             if (numVacantSeats > 0 && numVacantSeats >= numberSelectedRows) {
                 this.hideSpinner(component);
+                component.set("v.isTableOpen", false);
                 component.set("v.isModalOpen", true);
             } else {
                 this.hideSpinner(component);
@@ -122,7 +123,6 @@
     },
     
     createFlights: function(component, event) {
-        let selectedRows = component.find("linesTable").getSelectedRows()
         let action = component.get("c.createFlights");
         action.setParams({
             tripId : component.get("v.recordId"),
@@ -132,17 +132,13 @@
             let state = response.getState();
             if (state === "SUCCESS") {
                 component.set("v.isModalOpen", false);
-                $A.get('e.force:refreshView').fire();
-                this.getTotalNumTourists(component);
-                this.fetchTourists(component, event);
-                this.checkingTrip(component, event);
+                component.set("v.isTableOpen", false);
                 this.hideSpinner(component);
                 const title =  $A.get("$Label.c.Success");
                 const type = $A.get("$Label.c.Success");
                 const message = $A.get("$Label.c.SuccessRegistTourists");
                 this.showToast(title, type, message);
             } 
-            this.hideSpinner(component);
         });
         $A.enqueueAction(action);
     },

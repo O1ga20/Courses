@@ -1,13 +1,13 @@
-public class TouristAssignmentController {
+public without sharing class TouristAssignmentController {
     
-    @AuraEnabled 
+    @AuraEnabled(cacheable=true)
     public static List<Trip__c> getTrips(Id touristId){
         Tourist__c tourist = TouristManager.getTourist(touristId);
         List<Trip__c> trips = TripManager.getTripValid(tourist);
         return trips;
     } 
     
-    @AuraEnabled 
+    @AuraEnabled(cacheable=true)
     public static Trip__c getTrip(Id tripId) {
         Trip__c trip = TripManager.getTrip(tripId);
         return trip;
@@ -18,7 +18,7 @@ public class TouristAssignmentController {
        TripService.createFlight(tripId, touristId);
     }
     
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static Space_Point__c getNameCity(Id tripId) {
         Trip__c trip = TripManager.getTrip(tripId);
         Id spacePoint = trip.Departure_Space_Point__c;
@@ -26,7 +26,7 @@ public class TouristAssignmentController {
         return point;
     }
     
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static Weather_Daily_Forecast__c fetchWeather(Id spacePoint) {
         Weather_Daily_Forecast__c weather = WeatherForecastManager.getWeather(spacePoint);
         return weather;

@@ -1,9 +1,4 @@
 ({
-    doInit : function(component, event, helper) {
-        var url = $A.get("$Resource.PicturesForTrip");
-        component.set("v.backgroundImageURL", url);
-    },
-    
     getTripDetail : function(component, event, helper) {
         let selectedItem = event.currentTarget; 
         let index = selectedItem.dataset.record; 

@@ -17,11 +17,6 @@
         helper.parametersValidation(component, event);
     },
     
-    closeModal : function(component, event, helper) {
-        let isModalOpen = event.getSource();
-        component.set("v.isModalOpen", false);
-    },
-    
     registration : function(component, event, helper) {
         helper.showSpinner(component);
         let selectedTourists = component.find("linesTable").getSelectedRows();
@@ -52,5 +47,9 @@
         let selectedRows = component.find("linesTable").getSelectedRows();
         component.set("v.selectedTourists", selectedRows);
         component.set("v.selectedRowsCount", selectedRows.length);
+    },
+    
+    closeModal : function(component, event, helper) {
+        $A.get("e.force:closeQuickAction").fire();
     }
 })
